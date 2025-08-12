@@ -4,26 +4,7 @@ import * as React from "react";
 import Container from "@/components/container";
 import ProductsTable, { ProductRow } from "@/components/products-table";
 
-const initialData: ProductRow[] = [
-  {
-    id: "1",
-    item_name: "Pão de Forma (500g)",
-    item_amount: 1,
-    item_price: 1.49,
-  },
-  {
-    id: "2",
-    item_name: "Leite Meio-Gordo (1L)",
-    item_amount: 2,
-    item_price: 0.89,
-  },
-  {
-    id: "3",
-    item_name: "Arroz Agulha (1kg)",
-    item_amount: 1,
-    item_price: 1.19,
-  },
-];
+const initialData: ProductRow[] = [];
 
 export default function CartView() {
   const [items, setItems] = React.useState<ProductRow[]>(initialData);

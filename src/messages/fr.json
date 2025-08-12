@@ -1,0 +1,23 @@
+{
+    "products": {
+      "column": {
+        "item": "Item",
+        "quantity": "Quantité",
+        "unitPrice": "Prix unitaire",
+        "actions": "Actions"
+      },
+      "actions": {
+        "edit": "Modifier",
+        "delete": "Supprimer",
+        "addProduct": "Ajouter un produit",
+        "save": "Enregistrer",
+        "cancel": "Annuler"
+      },
+      "emptyState": {
+        "text": "Ajoutez un produit pour commencer la liste"
+      },
+      "searchPlaceholder": "Rechercher des produits...",
+      "total": "Total"
+    }
+  }
+  
