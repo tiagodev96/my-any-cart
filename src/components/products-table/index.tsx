@@ -188,7 +188,6 @@ export default function ProductsTable({
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>({});
 
-  // dialog state (Add/Edit compartilhado)
   const [open, setOpen] = React.useState(false);
   const [editing, setEditing] = React.useState<ProductRow | null>(null);
   const [form, setForm] = React.useState({
@@ -350,7 +349,7 @@ export default function ProductsTable({
           />
         </div>
       </div>
-      <DialogFooter className="gap-2 sm:gap-0">
+      <DialogFooter className="gap-2">
         <DialogClose asChild>
           <Button
             variant="outline"
