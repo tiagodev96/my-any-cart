@@ -7,6 +7,9 @@
       "actions": "Actions"
     },
     "cart": "Cart",
+    "history": "History",
+    "profile": "Profile",
+    "logout": "Logout",
     "clearCart": "Clear cart",
     "emptyCart": "Empty cart",
     "actions": {
