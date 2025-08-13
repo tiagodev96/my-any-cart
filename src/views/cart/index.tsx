@@ -2,7 +2,8 @@
 
 import * as React from "react";
 import Container from "@/components/container";
-import ProductsTable, { ProductRow } from "@/components/products-table";
+import ProductsTable from "@/components/products/products-table";
+import { ProductRow } from "@/components/products/types";
 
 const STORAGE_KEY = "my-any-cart-products";
 
