@@ -15,6 +15,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
 import { useTranslations } from "next-intl";
+import Container from "../container";
 
 type User = {
   firstName: string;
@@ -68,54 +69,56 @@ export default function Navbar({ user, onLogout }: NavbarProps) {
 
   return (
     <header className="sticky top-0 z-40 w-full border-b bg-background/60 backdrop-blur">
-      <nav className="mx-auto flex h-14 max-w-6xl items-center justify-between px-4">
-        <div className="flex items-center gap-6">
-          <Link href="/" className="font-semibold tracking-tight">
-            MyAnyCart
-          </Link>
-          <div className="hidden items-center gap-2 sm:flex">
-            <NavLink href="/carrinho">{t("cart")}</NavLink>
-            <NavLink href="/historico">{t("history")}</NavLink>
+      <Container verticalPadding={false}>
+        <nav className="mx-auto flex h-14 items-center justify-between">
+          <div className="flex items-center gap-6">
+            <Link href="/" className="font-semibold tracking-tight">
+              MyAnyCart
+            </Link>
+            <div className="hidden items-center gap-2 sm:flex">
+              <NavLink href="/carrinho">{t("cart")}</NavLink>
+              <NavLink href="/historico">{t("history")}</NavLink>
+            </div>
           </div>
-        </div>
 
-        <div className="flex items-center gap-3">
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button
-                variant="ghost"
-                className="flex items-center gap-3 px-1 hover:bg-transparent"
-              >
-                <Avatar className="h-8 w-8">
-                  {user?.avatarUrl ? (
-                    <AvatarImage src={user.avatarUrl} alt={fullName} />
-                  ) : (
-                    <AvatarFallback>{initials}</AvatarFallback>
-                  )}
-                </Avatar>
-                <span className="hidden text-sm sm:inline-block">
+          <div className="flex items-center gap-3">
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button
+                  variant="ghost"
+                  className="flex items-center gap-3 px-1 hover:bg-transparent"
+                >
+                  <Avatar className="h-8 w-8">
+                    {user?.avatarUrl ? (
+                      <AvatarImage src={user.avatarUrl} alt={fullName} />
+                    ) : (
+                      <AvatarFallback>{initials}</AvatarFallback>
+                    )}
+                  </Avatar>
+                  <span className="hidden text-sm sm:inline-block">
+                    {fullName}
+                  </span>
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" sideOffset={8} className="w-44">
+                <DropdownMenuLabel className="truncate">
                   {fullName}
-                </span>
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" sideOffset={8} className="w-44">
-              <DropdownMenuLabel className="truncate">
-                {fullName}
-              </DropdownMenuLabel>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem asChild>
-                <Link href="/perfil">{t("profile")}</Link>
-              </DropdownMenuItem>
-              <DropdownMenuItem
-                onClick={onLogout}
-                className="text-destructive focus:text-destructive"
-              >
-                {t("logout")}
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-        </div>
-      </nav>
+                </DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem asChild>
+                  <Link href="/perfil">{t("profile")}</Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem
+                  onClick={onLogout}
+                  className="text-destructive focus:text-destructive"
+                >
+                  {t("logout")}
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
+        </nav>
+      </Container>
     </header>
   );
 }
