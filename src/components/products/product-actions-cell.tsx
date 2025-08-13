@@ -1,7 +1,10 @@
 "use client";
+
+import * as React from "react";
+import { Pencil } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Pencil, Trash2 } from "lucide-react";
-import { ProductRow, CommonStrings } from "./types";
+import type { ProductRow, CommonStrings } from "./types";
+import { ProductDeleteButton } from "./product-delete-button";
 
 export function ProductActionsCell({
   row,
@@ -10,20 +13,29 @@ export function ProductActionsCell({
   strings,
 }: {
   row: ProductRow;
-  onEdit?: (r: ProductRow) => void;
-  onDelete?: (r: ProductRow) => void;
+  onEdit: (row: ProductRow) => void;
+  onDelete: (row: ProductRow) => void;
   strings: CommonStrings;
 }) {
   return (
-    <div className="flex justify-end">
-      <Button variant="secondary" size="sm" onClick={() => onEdit?.(row)} className="gap-1">
+    <div className="flex items-center gap-1">
+      <Button
+        variant="ghost"
+        size="icon"
+        aria-label={strings.edit}
+        onClick={() => onEdit(row)}
+      >
         <Pencil className="h-4 w-4" />
-        {strings.edit}
       </Button>
-      <Button variant="destructive" size="sm" onClick={() => onDelete?.(row)} className="ml-2 gap-1">
-        <Trash2 className="h-4 w-4" />
-        {strings.delete}
-      </Button>
+
+      <ProductDeleteButton
+        row={row}
+        onConfirm={onDelete}
+        strings={strings}
+        mode="icon"
+      />
     </div>
   );
 }
+
+export default ProductActionsCell;

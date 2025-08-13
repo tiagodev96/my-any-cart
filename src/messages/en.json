@@ -6,12 +6,20 @@
       "unitPrice": "Unit Price",
       "actions": "Actions"
     },
+    "cart": "Cart",
+    "clearCart": "Clear cart",
+    "emptyCart": "Empty cart",
     "actions": {
       "edit": "Edit",
       "delete": "Delete",
       "addProduct": "Add Product",
       "save": "Save",
-      "cancel": "Cancel"
+      "cancel": "Cancel",
+      "dialog-title": "Confirmation",
+      "dialog-description": "Are you sure you want to continue?",
+      "confirm": "Confirm",
+      "removeItem": "Remove item?",
+      "removeItemDescription": "Are you sure you want to remove <b>{item}</b> from the cart? This action cannot be undone."
     },
     "emptyState": {
       "text": "Add a product to start the list"

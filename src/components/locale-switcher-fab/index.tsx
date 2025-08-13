@@ -40,25 +40,16 @@ export function LocaleSwitcherFab() {
 
   return (
     <>
-      {/* MOBILE: barra fixa inferior */}
       <div
-        className="
-          fixed bottom-0 left-0 right-0 z-50
-          flex items-center justify-center
-          border-t bg-background/80 backdrop-blur
-          px-3 py-2
-          md:hidden
-        "
-        style={{
-          paddingBottom: "calc(env(safe-area-inset-bottom, 0px) + 8px)",
-        }}
+        className="fixed right-4 z-30 md:hidden"
+        style={{ bottom: "calc(env(safe-area-inset-bottom, 0px) + 80px)" }}
       >
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button
               variant="outline"
               size="sm"
-              className="gap-2"
+              className="h-10 px-3 rounded-full shadow-md"
               aria-label="Change language"
             >
               <span className="text-sm font-medium">
@@ -66,11 +57,7 @@ export function LocaleSwitcherFab() {
               </span>
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent
-            align="center"
-            side="top"
-            className="min-w-[10rem]"
-          >
+          <DropdownMenuContent align="end" side="top" className="min-w-[10rem]">
             {locales.map((l: Locale) => (
               <DropdownMenuItem key={l} onClick={() => handleChange(l)}>
                 <span className="mr-2 inline-block w-4">
@@ -87,7 +74,6 @@ export function LocaleSwitcherFab() {
         </DropdownMenu>
       </div>
 
-      {/* DESKTOP: botão flutuante */}
       <div className="hidden md:block">
         <div className="fixed bottom-6 right-6 z-50">
           <DropdownMenu>

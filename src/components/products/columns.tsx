@@ -87,12 +87,14 @@ export function productsColumns({
       enableSorting: false,
       header: () => <div className="text-right">{strings.actions}</div>,
       cell: ({ row }) => (
-        <ProductActionsCell
-          row={row.original}
-          onEdit={onEdit}
-          onDelete={onDelete}
-          strings={strings}
-        />
+        <div className="flex justify-end">
+          <ProductActionsCell
+            row={row.original}
+            onEdit={onEdit ?? (() => {})}
+            onDelete={onDelete ?? (() => {})}
+            strings={strings}
+          />
+        </div>
       ),
     },
   ];

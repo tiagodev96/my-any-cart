@@ -1,23 +1,30 @@
 {
-    "products": {
-      "column": {
-        "item": "Item",
-        "quantity": "Quantidade",
-        "unitPrice": "Precio Unitario",
-        "actions": "Acciones"
-      },
-      "actions": {
-        "edit": "Editar",
-        "delete": "Eliminar",
-        "addProduct": "Añadir Producto",
-        "save": "Guardar",
-        "cancel": "Cancelar"
-      },
-      "emptyState": {
-        "text": "Añade un producto para empezar la lista"
-      },
-      "searchPlaceholder": "Buscar productos...",
-      "total": "Total"
-    }
+  "products": {
+    "column": {
+      "item": "Artículo",
+      "quantity": "Cantidad",
+      "unitPrice": "Precio unitario",
+      "actions": "Acciones"
+    },
+    "cart": "Carrito",
+    "clearCart": "Vaciar carrito",
+    "emptyCart": "Carrito vacío",
+    "actions": {
+      "edit": "Editar",
+      "delete": "Eliminar",
+      "addProduct": "Añadir producto",
+      "save": "Guardar",
+      "cancel": "Cancelar",
+      "dialog-title": "Confirmación",
+      "dialog-description": "¿Seguro que deseas continuar?",
+      "confirm": "Confirmar",
+      "removeItem": "¿Eliminar artículo?",
+      "removeItemDescription": "¿Seguro que deseas eliminar <b>{item}</b> del carrito? Esta acción no se puede deshacer."
+    },
+    "emptyState": {
+      "text": "Añade un producto para empezar la lista"
+    },
+    "searchPlaceholder": "Buscar artículos...",
+    "total": "Total"
   }
-  
+}
