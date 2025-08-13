@@ -31,13 +31,75 @@ This repository contains the **frontend application**. The backend (in developme
 ## 📂 Project Structure
 
 ```
-my-any-cart/
-├── app/               # Next.js App Router pages and layouts
-├── components/        # Reusable UI components
-├── public/            # Static assets
-├── styles/            # Global styles
-└── ...
+├── 📁 .git/ 🚫 (auto-hidden)
+├── 📁 .next/ 🚫 (auto-hidden)
+├── 📁 node_modules/ 🚫 (auto-hidden)
+├── 📁 public/
+│   ├── 🖼️ file.svg
+│   ├── 🖼️ globe.svg
+│   ├── 🖼️ next.svg
+│   ├── 🖼️ vercel.svg
+│   └── 🖼️ window.svg
+├── 📁 src/
+│   ├── 📁 app/
+│   │   ├── 📁 [locale]/
+│   │   │   ├── 🖼️ favicon.ico
+│   │   │   ├── 📄 layout.tsx
+│   │   │   └── 📄 page.tsx
+│   │   ├── 🎨 globals.css
+│   │   └── 📄 layout.tsx
+│   ├── 📁 components/
+│   │   ├── 📁 container/
+│   │   │   └── 📄 index.tsx
+│   │   ├── 📁 locale-switcher-fab/
+│   │   │   └── 📄 index.tsx
+│   │   ├── 📁 products/
+│   │   │   ├── 📄 columns.tsx
+│   │   │   ├── 📄 currency.ts
+│   │   │   ├── 📄 product-actions-cell.tsx
+│   │   │   ├── 📄 product-dialog-form.tsx
+│   │   │   ├── 📄 products-table.tsx
+│   │   │   ├── 📄 products-toolbar.tsx
+│   │   │   └── 📄 types.ts
+│   │   └── 📁 ui/
+│   │       ├── 📄 button.tsx
+│   │       ├── 📄 dialog.tsx
+│   │       ├── 📄 dropdown-menu.tsx
+│   │       ├── 📄 input.tsx
+│   │       ├── 📄 label.tsx
+│   │       └── 📄 table.tsx
+│   ├── 📁 hooks/
+│   │   └── 📄 useUserTheme.tsx
+│   ├── 📁 i18n/
+│   │   ├── 📄 navigation.ts
+│   │   ├── 📄 request.ts
+│   │   └── 📄 routing.ts
+│   ├── 📁 lib/
+│   │   └── 📄 utils.ts
+│   ├── 📁 messages/
+│   │   ├── 📄 en.json
+│   │   ├── 📄 es.json
+│   │   ├── 📄 fr.json
+│   │   └── 📄 pt.json
+│   ├── 📁 types/
+│   │   └── 📄 tanstack.d.ts
+│   ├── 📁 views/
+│   │   └── 📁 cart/
+│   │       └── 📄 index.tsx
+│   └── 📄 middleware.ts
+├── 🚫 .gitignore
+├── 📖 README.md
+├── 📄 components.json
+├── 📄 eslint.config.mjs
+├── 📄 next-env.d.ts 🚫 (auto-hidden)
+├── 📄 next.config.ts
+├── 📄 package-lock.json
+├── 📄 package.json
+├── 📄 postcss.config.mjs
+└── 📄 tsconfig.json
 ```
+
+---
 
 ---
 
