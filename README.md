@@ -1,8 +1,57 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🛒 My Any Cart
 
-## Getting Started
+**My Any Cart** is a personal project designed to make tracking and managing your shopping easy, fast, and organized.
+Built with **Next.js** for the frontend, it allows you to **add, edit, and remove products**, set quantities and prices, and see the **total cost** in real time — before you even get to the checkout.
 
-First, run the development server:
+This repository contains the **frontend application**. The backend (in development) will be powered by **Django REST Framework** with **PostgreSQL**.
+
+---
+
+## ✨ Features
+
+### ✅ Already implemented
+- **Next.js** frontend with responsive and clean UI
+- Local storage for persistent cart data
+- Real-time price calculation as items are added or updated
+- Edit and delete products easily
+
+### 🚧 Upcoming features
+- **Django REST API** backend integration
+- **PostgreSQL** database for reliable and scalable storage
+- Secure **user authentication**
+- **Purchase history** with date tracking
+- **Excel export** of purchase history
+- **Smart purchase identification** and categorization
+- **Dashboard** with:
+  - Price analysis per product (price history tracking)
+  - Consumption analysis to understand shopping habits
+
+---
+
+## 📂 Project Structure
+
+```
+my-any-cart/
+├── app/               # Next.js App Router pages and layouts
+├── components/        # Reusable UI components
+├── public/            # Static assets
+├── styles/            # Global styles
+└── ...
+```
+
+---
+
+## 🚀 Getting Started
+
+Clone the repository and install dependencies:
+
+```bash
+git clone https://github.com/tiagodev96/my-any-cart.git
+cd my-any-cart
+npm install
+```
+
+Run the development server:
 
 ```bash
 npm run dev
@@ -14,23 +63,37 @@ pnpm dev
 bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open http://localhost:3000 in your browser to see it running.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 🛠️ Tech Stack
 
-## Learn More
+- **Frontend:** Next.js, React, TypeScript, Tailwind CSS
+- **Backend (soon):** Django REST Framework
+- **Database (soon):** PostgreSQL
 
-To learn more about Next.js, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 📌 Roadmap
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- [ ] Django REST API integration
+- [ ] Database setup (PostgreSQL)
+- [ ] Authentication & authorization
+- [ ] Purchase history
+- [ ] Excel export
+- [ ] Dashboard with analytics
 
-## Deploy on Vercel
+---
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 🤝 Contributing
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+I’m open to **ideas and suggestions**! Feel free to open an issue or submit a pull request.
+I’ll be posting updates for every new feature — follow the project to stay updated.
+
+---
+
+## 📎 Links
+
+- **GitHub Repository:** https://github.com/tiagodev96/my-any-cart
+- **Follow updates on LinkedIn:** (coming soon)
