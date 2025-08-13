@@ -7,8 +7,11 @@
       "actions": "Ações"
     },
     "cart": "Carrinho",
+    "history": "Histórico",
     "clearCart": "Limpar carrinho",
     "emptyCart": "Carrinho vazio",
+    "profile": "Perfil",
+    "logout": "Sair",
     "actions": {
       "edit": "Editar",
       "delete": "Excluir",

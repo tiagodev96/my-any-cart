@@ -7,6 +7,9 @@
       "actions": "Actions"
     },
     "cart": "Panier",
+    "history": "Historique",
+    "profile": "Profil",
+    "logout": "Déconnexion",
     "clearCart": "Vider le panier",
     "emptyCart": "Panier vide",
     "actions": {
