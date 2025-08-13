@@ -31,15 +31,6 @@ This repository contains the **frontend application**. The backend (in developme
 ## 📂 Project Structure
 
 ```
-├── 📁 .git/ 🚫 (auto-hidden)
-├── 📁 .next/ 🚫 (auto-hidden)
-├── 📁 node_modules/ 🚫 (auto-hidden)
-├── 📁 public/
-│   ├── 🖼️ file.svg
-│   ├── 🖼️ globe.svg
-│   ├── 🖼️ next.svg
-│   ├── 🖼️ vercel.svg
-│   └── 🖼️ window.svg
 ├── 📁 src/
 │   ├── 📁 app/
 │   │   ├── 📁 [locale]/
@@ -87,11 +78,9 @@ This repository contains the **frontend application**. The backend (in developme
 │   │   └── 📁 cart/
 │   │       └── 📄 index.tsx
 │   └── 📄 middleware.ts
-├── 🚫 .gitignore
 ├── 📖 README.md
 ├── 📄 components.json
 ├── 📄 eslint.config.mjs
-├── 📄 next-env.d.ts 🚫 (auto-hidden)
 ├── 📄 next.config.ts
 ├── 📄 package-lock.json
 ├── 📄 package.json
