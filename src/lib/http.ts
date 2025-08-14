@@ -5,7 +5,7 @@ async function refreshAccessToken(): Promise<string | null> {
   const session = authStore.get();
   if (!session?.refresh) return null;
 
-  const res = await fetch(`${API_BASE}/auth/jwt/refresh/`, {
+  const res = await fetch(`${API_BASE}/api/token/refresh/`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ refresh: session.refresh }),

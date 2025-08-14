@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import Link from "next/link";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams, usePathname } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -18,7 +18,7 @@ import { Separator } from "@/components/ui/separator";
 
 import { useAuth } from "@/contexts/AuthContext";
 import { GoogleLoginButton } from "@/components/auth/GoogleLoginButton";
-import { loginEmailPassword } from "@/services/auth";
+import { loginUsernamePassword } from "@/services/auth";
 
 function getErrorMessage(err: unknown): string {
   if (err instanceof Error) return err.message;
@@ -33,9 +33,11 @@ export default function LoginPage() {
   const { user, loginWithBackendTokens } = useAuth();
   const router = useRouter();
   const search = useSearchParams();
-  const next = search.get("next") || "/";
+  const pathname = usePathname();
+  const locale = pathname?.split("/").filter(Boolean)[0] || "pt";
+  const next = search.get("next") || `/${locale}`;
 
-  const [email, setEmail] = React.useState("");
+  const [username, setUsername] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [busy, setBusy] = React.useState(false);
   const [error, setError] = React.useState("");
@@ -47,10 +49,10 @@ export default function LoginPage() {
   async function handleLogin(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setError("");
-    if (!email || !password) return setError("Preencha e-mail e senha.");
+    if (!username || !password) return setError("Preencha usuário e senha.");
     setBusy(true);
     try {
-      const tokens = await loginEmailPassword(email, password);
+      const tokens = await loginUsernamePassword(username, password);
       await loginWithBackendTokens(tokens);
       router.replace(next);
     } catch (err: unknown) {
@@ -70,17 +72,15 @@ export default function LoginPage() {
         <CardContent className="space-y-4">
           <form className="space-y-4" onSubmit={handleLogin}>
             <div className="space-y-2">
-              <Label htmlFor="email">E-mail</Label>
+              <Label htmlFor="username">Usuário</Label>
               <Input
-                id="email"
-                type="email"
-                autoComplete="email"
-                value={email}
-                onChange={(e) => setEmail(e.currentTarget.value)}
+                id="username"
+                autoComplete="username"
+                value={username}
+                onChange={(e) => setUsername(e.currentTarget.value)}
                 required
               />
             </div>
-
             <div className="space-y-2">
               <Label htmlFor="password">Senha</Label>
               <Input
@@ -92,9 +92,7 @@ export default function LoginPage() {
                 required
               />
             </div>
-
             {error && <p className="text-sm text-red-600">{error}</p>}
-
             <Button type="submit" disabled={busy} className="w-full">
               {busy ? "Entrando…" : "Entrar"}
             </Button>
@@ -112,7 +110,7 @@ export default function LoginPage() {
         <CardFooter className="flex justify-between text-sm">
           <span className="opacity-80">Ainda não tem conta?</span>
           <Link
-            href={`/register?next=${encodeURIComponent(next)}`}
+            href={`/${locale}/register?next=${encodeURIComponent(next)}`}
             className="underline"
           >
             Criar conta

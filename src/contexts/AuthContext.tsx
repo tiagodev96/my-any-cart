@@ -2,8 +2,8 @@
 
 import React from "react";
 import { authStore } from "@/lib/auth-store";
-import { http } from "@/lib/http";
-import type { User, AuthTokens, BackendUser } from "@/types/auth";
+import type { User, AuthTokens } from "@/types/auth";
+import { decodeJwt } from "@/lib/jwt";
 
 type AuthContextValue = {
   user: User | null;
@@ -17,8 +17,20 @@ const AuthContext = React.createContext<AuthContextValue | undefined>(
   undefined
 );
 
-function normalizeUser(u: BackendUser): User {
-  return { id: u.id, email: u.email, name: u.name ?? undefined };
+function userFromAccess(access: string): User | null {
+  const payload = decodeJwt<Record<string, unknown>>(access);
+  if (!payload) return null;
+
+  const id =
+    (payload.user_id as number | undefined) ??
+    (typeof payload.sub === "number" ? (payload.sub as number) : undefined);
+
+  const email =
+    (payload.email as string | undefined) ??
+    (payload.username as string | undefined);
+
+  if (!id && !email) return null;
+  return { id: id ?? -1, email: email ?? "" };
 }
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
@@ -31,31 +43,37 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   const reloadUser = React.useCallback(async (): Promise<void> => {
-    try {
-      const me = await http<BackendUser>("/me/", { auth: true });
-      setUser(normalizeUser(me));
-    } catch {
+    const session = authStore.get();
+    if (!session?.access) {
       setUser(null);
+      return;
     }
+    if (session.user?.id) {
+      setUser(session.user);
+      return;
+    }
+    setUser(userFromAccess(session.access));
   }, []);
 
   const loginWithBackendTokens = React.useCallback(
     async (tokens: AuthTokens): Promise<void> => {
-      authStore.set(tokens);
-      await reloadUser();
+      const u = tokens.user ?? userFromAccess(tokens.access);
+      authStore.set({ ...tokens, user: u ?? undefined });
+      setUser(u ?? null);
     },
-    [reloadUser]
+    []
   );
 
   React.useEffect(() => {
     (async () => {
       const session = authStore.get();
       if (session?.access) {
-        await reloadUser();
+        const u = session.user ?? userFromAccess(session.access);
+        setUser(u ?? null);
       }
       setLoading(false);
     })();
-  }, [reloadUser]);
+  }, []);
 
   return (
     <AuthContext.Provider
