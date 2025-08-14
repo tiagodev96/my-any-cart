@@ -3,9 +3,6 @@
 import * as React from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams, usePathname } from "next/navigation";
-import { useTranslations } from "next-intl";
-import { toast } from "sonner";
-
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -21,10 +18,9 @@ import { Separator } from "@/components/ui/separator";
 
 import { useAuth } from "@/contexts/AuthContext";
 import { GoogleLoginButton } from "@/components/auth/GoogleLoginButton";
-import { http } from "@/lib/http";
 import { loginUsernamePassword } from "@/services/auth";
-
-const REGISTER_ENDPOINT = "/api/users/";
+import { toast } from "sonner";
+import { useTranslations } from "next-intl";
 
 function getErrorMessage(err: unknown): string {
   if (err instanceof Error) return err.message;
@@ -35,8 +31,7 @@ function getErrorMessage(err: unknown): string {
   }
 }
 
-export default function RegisterPage() {
-  const t = useTranslations();
+export default function LoginView() {
   const { user, loginWithBackendTokens } = useAuth();
   const router = useRouter();
   const search = useSearchParams();
@@ -44,40 +39,28 @@ export default function RegisterPage() {
   const locale = pathname?.split("/").filter(Boolean)[0] || "pt";
   const next = search.get("next") || `/${locale}`;
 
-  const [name, setName] = React.useState("");
   const [username, setUsername] = React.useState("");
   const [password, setPassword] = React.useState("");
-  const [confirm, setConfirm] = React.useState("");
   const [busy, setBusy] = React.useState(false);
+  const t = useTranslations();
 
   React.useEffect(() => {
     if (user) router.replace(next);
   }, [user, next, router]);
 
-  async function handleRegister(e: React.FormEvent<HTMLFormElement>) {
+  async function handleLogin(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-
     if (!username || !password) {
       toast.error(t("auth.errors.fillUserPass"));
-      return;
-    }
-    if (password !== confirm) {
-      toast.error(t("auth.errors.passwordMismatch"));
       return;
     }
 
     setBusy(true);
     try {
-      await http<unknown>(REGISTER_ENDPOINT, {
-        method: "POST",
-        body: JSON.stringify({ username, name, password }),
-      });
-
       const tokens = await loginUsernamePassword(username, password);
       await loginWithBackendTokens(tokens);
-
-      toast.success(t("auth.register.registerSuccess"));
       router.replace(next);
+      toast.success(t("auth.login.loginSuccess"));
     } catch (err: unknown) {
       const msg = getErrorMessage(err);
       toast.error(t("auth.errors.generic", { message: msg }));
@@ -90,84 +73,63 @@ export default function RegisterPage() {
     <main className="flex min-h-svh items-center justify-center p-6">
       <Card className="w-full max-w-md">
         <CardHeader>
-          <CardTitle>{t("auth.register.title")}</CardTitle>
-          <CardDescription>{t("auth.register.description")}</CardDescription>
+          <CardTitle>{t("auth.login.title")}</CardTitle>
+          <CardDescription>{t("auth.login.description")}</CardDescription>
         </CardHeader>
-
+  
         <CardContent className="space-y-4">
-          <form className="space-y-4" onSubmit={handleRegister}>
+          <form className="space-y-4" onSubmit={handleLogin}>
             <div className="space-y-2">
-              <Label htmlFor="name">{t("auth.register.name")}</Label>
-              <Input
-                id="name"
-                value={name}
-                onChange={(e) => setName(e.currentTarget.value)}
-                placeholder={t("auth.register.namePlaceholder")}
-              />
-            </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="username">{t("auth.register.username")}</Label>
+              <Label htmlFor="username">{t("auth.login.username")}</Label>
               <Input
                 id="username"
                 autoComplete="username"
                 value={username}
                 onChange={(e) => setUsername(e.currentTarget.value)}
-                placeholder={t("auth.register.usernamePlaceholder")}
                 required
               />
             </div>
-
+  
             <div className="space-y-2">
-              <Label htmlFor="password">{t("auth.register.password")}</Label>
+              <Label htmlFor="password">{t("auth.login.password")}</Label>
               <Input
                 id="password"
                 type="password"
-                autoComplete="new-password"
+                autoComplete="current-password"
                 value={password}
                 onChange={(e) => setPassword(e.currentTarget.value)}
-                placeholder={t("auth.register.passwordPlaceholder")}
                 required
               />
             </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="confirm">{t("auth.register.confirm")}</Label>
-              <Input
-                id="confirm"
-                type="password"
-                autoComplete="new-password"
-                value={confirm}
-                onChange={(e) => setConfirm(e.currentTarget.value)}
-                placeholder={t("auth.register.confirmPlaceholder")}
-                required
-              />
-            </div>
-
+  
             <Button type="submit" disabled={busy} className="w-full">
-              {busy ? t("auth.register.creating") : t("auth.register.create")}
+              {busy ? t("auth.login.entering") : t("auth.login.enter")}
             </Button>
           </form>
-
+  
           <div className="relative">
             <Separator className="my-6" />
             <div className="absolute inset-x-0 -top-3 flex justify-center">
               <span className="bg-background px-2 text-xs opacity-70">
-                {t("auth.register.or")}
+                {t("auth.login.or")}
               </span>
             </div>
           </div>
-
+  
           <GoogleLoginButton />
         </CardContent>
-
+  
         <CardFooter className="flex justify-between text-sm">
-          <span className="opacity-80">{t("auth.register.haveAccount")}</span>
-          <Link href={`/${locale}/login?next=${encodeURIComponent(next)}`} className="underline">
-            {t("auth.register.goToLogin")}
+          <span className="opacity-80">{t("auth.login.noAccount")}</span>
+          <Link
+            href={`/${locale}/register?next=${encodeURIComponent(next)}`}
+            className="underline"
+          >
+            {t("auth.login.createAccount")}
           </Link>
         </CardFooter>
       </Card>
     </main>
   );
+  
 }

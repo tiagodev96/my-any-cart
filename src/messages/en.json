@@ -8,10 +8,10 @@
     },
     "cart": "Cart",
     "history": "History",
+    "clearCart": "Clear cart",
+    "emptyCart": "Cart empty",
     "profile": "Profile",
     "logout": "Logout",
-    "clearCart": "Clear cart",
-    "emptyCart": "Empty cart",
     "actions": {
       "edit": "Edit",
       "delete": "Delete",
@@ -29,5 +29,44 @@
     },
     "searchPlaceholder": "Search items...",
     "total": "Total"
+  },
+  "auth": {
+    "register": {
+      "title": "Create account",
+      "description": "Create your account to continue.",
+      "username": "Username",
+      "password": "Password",
+      "enter": "Create account",
+      "registerSuccess": "Account created successfully!",
+      "name": "Name",
+      "namePlaceholder": "Enter your name",
+      "usernamePlaceholder": "Enter your username",
+      "passwordPlaceholder": "Enter your password",
+      "confirmPlaceholder": "Confirm your password",
+      "or": "or",
+      "haveAccount": "Already have an account?",
+      "goToLogin": "Go to login",
+      "confirm": "Confirm your password",
+      "create": "Create account",
+      "creating": "Creating account…"
+    },
+    "login": {
+      "title": "Login",
+      "description": "Access your account to continue.",
+      "username": "Username",
+      "password": "Password",
+      "enter": "Login",
+      "createAccount": "Create account",
+      "or": "or",
+      "noAccount": "Don't have an account yet?",
+      "entering": "Logging in…",
+      "loginSuccess": "Login successful!"
+    },
+    "errors": {
+      "fillUserPass": "Fill in username and password.",
+      "generic": "Error logging in: {message}",
+      "loginSuccess": "Login successful!",
+      "passwordMismatch": "Passwords do not match."
+    }
   }
 }

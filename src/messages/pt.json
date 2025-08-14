@@ -29,5 +29,44 @@
     },
     "searchPlaceholder": "Buscar itens...",
     "total": "Total"
+  },
+  "auth": {
+    "register": {
+      "title": "Criar conta",
+      "description": "Crie sua conta para continuar.",
+      "username": "Usuário",
+      "password": "Senha",
+      "enter": "Criar conta",
+      "registerSuccess": "Conta criada com sucesso!",
+      "name": "Nome",
+      "namePlaceholder": "Digite seu nome",
+      "usernamePlaceholder": "Digite seu usuário",
+      "passwordPlaceholder": "Digite sua senha",
+      "confirmPlaceholder": "Confirme sua senha",
+      "or": "ou",
+      "haveAccount": "Já tem conta?",
+      "goToLogin": "Ir para login",
+      "confirm": "Confirme sua senha",
+      "create": "Criar conta",
+      "creating": "Criando conta…"
+    },
+    "login": {
+      "title": "Entrar",
+      "description": "Acesse sua conta para continuar.",
+      "username": "Usuário",
+      "password": "Senha",
+      "enter": "Entrar",
+      "createAccount": "Criar conta",
+      "or": "ou",
+      "noAccount": "Ainda não tem conta?",
+      "entering": "Entrando…",
+      "loginSuccess": "Login realizado com sucesso!"
+    },
+    "errors": {
+      "fillUserPass": "Preencha usuário e senha.",
+      "generic": "Erro ao fazer login: {message}",
+      "loginSuccess": "Login realizado com sucesso!",
+      "passwordMismatch": "As senhas não coincidem."
+    }
   }
 }
