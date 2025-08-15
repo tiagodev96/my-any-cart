@@ -2,7 +2,11 @@
 
 import * as React from "react";
 import { useTranslations } from "next-intl";
-import { http } from "@/lib/http";
+import {
+  listPurchases,
+  getPurchase,
+  deletePurchase,
+} from "@/lib/api/purchases";
 
 import {
   Card,
@@ -30,32 +34,47 @@ import {
   SheetHeader,
   SheetTitle,
 } from "@/components/ui/sheet";
+import {
+  AlertDialog,
+  AlertDialogContent,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogCancel,
+  AlertDialogAction,
+} from "@/components/ui/alert-dialog";
 import { ReloadIcon } from "@radix-ui/react-icons";
 
-// --- Types (API shape A: id/created/total/items_count) ---
-type PurchaseItem = {
-  id: number;
-  item_name: string;
-  item_amount: number;
-  item_price: number;
-  subtotal?: number;
-};
-
-type Purchase = {
-  id: number;
-  store_name?: string | null;
+// --------------------
+// Types (API shape B)
+// --------------------
+type APIPurchaseItem = {
+  name: string;
+  unit_price: string;
+  quantity: number;
   created_at: string;
-  total: number;
-  items_count?: number;
 };
 
-type PurchaseDetail = Purchase & { items: PurchaseItem[] };
+type APIPurchase = {
+  id: string;
+  cart_name: string;
+  completed_at: string;
+  store_name: string | null;
+  currency: string;
+  notes: string;
+  tags: string[] | null;
+  items_count: number;
+  total_amount: string;
+  idempotency_key: string | null;
+  items?: APIPurchaseItem[];
+};
 
-// --- Local formatters ---
-const money = (n: number) =>
-  new Intl.NumberFormat("pt-PT", { style: "currency", currency: "EUR" }).format(
-    n
-  );
+// --------------------
+// Formatters
+// --------------------
+const money = (n: number, currency = "EUR") =>
+  new Intl.NumberFormat("pt-PT", { style: "currency", currency }).format(n);
 
 const dateTime = (iso: string) =>
   new Intl.DateTimeFormat("pt-PT", {
@@ -63,29 +82,29 @@ const dateTime = (iso: string) =>
     timeStyle: "short",
   }).format(new Date(iso));
 
-// --- Type guards / normalizers (no 'any') ---
+// --------------------
+// Type guards / normalize
+// --------------------
 type UnknownRecord = Record<string, unknown>;
+const isRecord = (v: unknown): v is UnknownRecord =>
+  typeof v === "object" && v !== null;
 
-function isRecord(v: unknown): v is UnknownRecord {
-  return typeof v === "object" && v !== null;
-}
-
-function isPurchase(v: unknown): v is Purchase {
+function isAPIPurchase(v: unknown): v is APIPurchase {
   if (!isRecord(v)) return false;
-  const idOk = typeof v.id === "number";
-  const createdOk = typeof v.created_at === "string";
-  const totalOk = typeof v.total === "number";
-  return idOk && createdOk && totalOk;
+  return (
+    typeof v.id === "string" &&
+    typeof v.completed_at === "string" &&
+    typeof v.total_amount === "string"
+  );
 }
 
-function normalizePurchases(resp: unknown): Purchase[] {
-  if (Array.isArray(resp)) return resp.filter(isPurchase);
+function normalizePurchases(resp: unknown): APIPurchase[] {
+  if (Array.isArray(resp)) return resp.filter(isAPIPurchase);
   if (!isRecord(resp)) return [];
-  if ("results" in resp && Array.isArray((resp as UnknownRecord).results)) {
-    const resultsUnknown = (resp as UnknownRecord).results as unknown[];
-    return resultsUnknown.filter(isPurchase);
+  if (Array.isArray(resp.results)) {
+    return (resp.results as unknown[]).filter(isAPIPurchase);
   }
-  if (isPurchase(resp)) return [resp];
+  if (isAPIPurchase(resp)) return [resp];
   return [];
 }
 
@@ -94,24 +113,30 @@ export default function HistoryView() {
 
   const [loading, setLoading] = React.useState(true);
   const [error, setError] = React.useState<string | null>(null);
-  const [rows, setRows] = React.useState<Purchase[]>([]);
+  const [rows, setRows] = React.useState<APIPurchase[]>([]);
   const [search, setSearch] = React.useState("");
 
   const [openDetail, setOpenDetail] = React.useState(false);
-  const [selectedId, setSelectedId] = React.useState<number | null>(null);
+  const [selectedId, setSelectedId] = React.useState<string | null>(null);
 
-  // Always return an array for rendering safety
-  const filtered = React.useMemo<Purchase[]>(() => {
+  // Delete dialog state
+  const [confirmOpen, setConfirmOpen] = React.useState(false);
+  const [deleteId, setDeleteId] = React.useState<string | null>(null);
+  const [deleting, setDeleting] = React.useState(false);
+
+  const filtered = React.useMemo<APIPurchase[]>(() => {
     const list = Array.isArray(rows) ? rows : [];
     if (!search) return list;
     const q = search.toLowerCase();
     return list.filter((p) =>
       [
-        String(p.id),
+        p.id,
+        p.cart_name ?? "",
         p.store_name ?? "",
-        dateTime(p.created_at),
+        dateTime(p.completed_at),
         String(p.items_count ?? ""),
-        String(p.total ?? ""),
+        p.total_amount ?? "",
+        p.currency ?? "",
       ]
         .join(" ")
         .toLowerCase()
@@ -124,13 +149,10 @@ export default function HistoryView() {
     setLoading(true);
     setError(null);
     try {
-      const resp = await http<unknown>("/api/purchases/", {
-        auth: true,
-        signal,
-      });
+      const resp = await listPurchases(signal);
       setRows(normalizePurchases(resp));
     } catch (e) {
-      if (e instanceof Error && e.name === "AbortError") return; // ignore aborts
+      if (e instanceof Error && (e as Error).name === "AbortError") return;
       setError(e instanceof Error ? e.message : String(e));
     } finally {
       setLoading(false);
@@ -143,10 +165,39 @@ export default function HistoryView() {
     return () => ctrl.abort();
   }, [load]);
 
-  const handleOpenDetail = React.useCallback((id: number) => {
+  const handleOpenDetail = React.useCallback((id: string) => {
     setSelectedId(id);
     setOpenDetail(true);
   }, []);
+
+  // Delete flow
+  const askDelete = React.useCallback((id: string) => {
+    setDeleteId(id);
+    setConfirmOpen(true);
+  }, []);
+
+  const doDelete = React.useCallback(async () => {
+    if (!deleteId) return;
+    setDeleting(true);
+    setError(null);
+    try {
+      await deletePurchase(deleteId);
+      // fecha dialog
+      setConfirmOpen(false);
+      // fecha sheet se for o mesmo id
+      if (selectedId === deleteId) {
+        setOpenDetail(false);
+        setSelectedId(null);
+      }
+      // remove da lista local (feedback instantâneo)
+      setRows((prev) => prev.filter((p) => p.id !== deleteId));
+    } catch (e) {
+      setError(e instanceof Error ? e.message : String(e));
+    } finally {
+      setDeleting(false);
+      setDeleteId(null);
+    }
+  }, [deleteId, selectedId]);
 
   return (
     <div className="container mx-auto py-8">
@@ -191,7 +242,6 @@ export default function HistoryView() {
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead className="w-[100px]">ID</TableHead>
                   <TableHead>{t("history.table.store")}</TableHead>
                   <TableHead>{t("history.table.date")}</TableHead>
                   <TableHead className="text-right">
@@ -209,7 +259,7 @@ export default function HistoryView() {
                 {loading && (
                   <TableRow>
                     <TableCell
-                      colSpan={6}
+                      colSpan={5}
                       className="py-6 text-center text-muted-foreground"
                     >
                       {t("common.loading")}
@@ -220,7 +270,7 @@ export default function HistoryView() {
                 {!loading && error && (
                   <TableRow>
                     <TableCell
-                      colSpan={6}
+                      colSpan={5}
                       className="py-6 text-center text-destructive"
                     >
                       {error}
@@ -231,7 +281,7 @@ export default function HistoryView() {
                 {!loading && !error && filtered.length === 0 && (
                   <TableRow>
                     <TableCell
-                      colSpan={6}
+                      colSpan={5}
                       className="py-6 text-center text-muted-foreground"
                     >
                       {t("history.empty")}
@@ -239,14 +289,10 @@ export default function HistoryView() {
                   </TableRow>
                 )}
 
-                {/* Extra guard: always iterate over an array */}
                 {!loading &&
                   !error &&
-                  (Array.isArray(filtered) ? filtered : []).map((p) => (
+                  filtered.map((p) => (
                     <TableRow key={p.id} className="hover:bg-muted/40">
-                      <TableCell className="font-mono text-sm">
-                        #{p.id}
-                      </TableCell>
                       <TableCell>
                         <div className="flex items-center gap-2">
                           <span className="font-medium">
@@ -259,20 +305,29 @@ export default function HistoryView() {
                           )}
                         </div>
                       </TableCell>
-                      <TableCell>{dateTime(p.created_at)}</TableCell>
+                      <TableCell>{dateTime(p.completed_at)}</TableCell>
                       <TableCell className="text-right">
                         {p.items_count ?? "—"}
                       </TableCell>
                       <TableCell className="text-right">
-                        {money(p.total)}
+                        {money(Number(p.total_amount), p.currency)}
                       </TableCell>
                       <TableCell className="text-right">
-                        <Button
-                          size="sm"
-                          onClick={() => handleOpenDetail(p.id)}
-                        >
-                          {t("history.actions.details")}
-                        </Button>
+                        <div className="inline-flex gap-2">
+                          <Button
+                            size="sm"
+                            onClick={() => handleOpenDetail(p.id)}
+                          >
+                            {t("history.actions.details")}
+                          </Button>
+                          <Button
+                            size="sm"
+                            variant="destructive"
+                            onClick={() => askDelete(p.id)}
+                          >
+                            {t("history.actions.delete")}
+                          </Button>
+                        </div>
                       </TableCell>
                     </TableRow>
                   ))}
@@ -287,6 +342,30 @@ export default function HistoryView() {
           />
         </CardContent>
       </Card>
+
+      {/* Confirm delete dialog */}
+      <AlertDialog open={confirmOpen} onOpenChange={setConfirmOpen}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>{t("history.delete.title")}</AlertDialogTitle>
+            <AlertDialogDescription>
+              {t("history.delete.desc")}
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel disabled={deleting}>
+              {t("common.cancel")}
+            </AlertDialogCancel>
+            <AlertDialogAction
+              onClick={doDelete}
+              disabled={deleting}
+              className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+            >
+              {deleting ? t("common.loading") : t("history.delete.confirm")}
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 }
@@ -298,28 +377,27 @@ function PurchaseDetailSheet({
 }: {
   open: boolean;
   onOpenChange: (v: boolean) => void;
-  id: number | null;
+  id: string | null;
 }) {
   const t = useTranslations();
   const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState<string | null>(null);
-  const [data, setData] = React.useState<PurchaseDetail | null>(null);
+  const [data, setData] = React.useState<APIPurchase | null>(null);
 
   React.useEffect(() => {
     if (!open || !id) return;
-
-    // Abort fetch on close/unmount
     const ctrl = new AbortController();
 
     (async () => {
       setLoading(true);
       setError(null);
       try {
-        const detail = await http<PurchaseDetail>(`/api/purchases/${id}/`, {
-          auth: true,
-          signal: ctrl.signal,
-        });
-        setData(detail);
+        const detail = await getPurchase(id, ctrl.signal);
+        if (isAPIPurchase(detail)) {
+          setData(detail);
+        } else {
+          throw new Error("Resposta inesperada do servidor.");
+        }
       } catch (e) {
         if (e instanceof Error && e.name === "AbortError") return;
         setError(e instanceof Error ? e.message : String(e));
@@ -331,19 +409,25 @@ function PurchaseDetailSheet({
     return () => ctrl.abort();
   }, [open, id]);
 
-  // Derive total if backend doesn't include subtotals
-  const computedTotal =
-    data?.items?.reduce(
-      (acc, it) => acc + (it.subtotal ?? it.item_amount * it.item_price),
-      0
-    ) ?? 0;
+  const items: APIPurchaseItem[] = data?.items ?? [];
+  const computedTotal = items.reduce(
+    (acc, it) => acc + Number(it.unit_price) * it.quantity,
+    0
+  );
 
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
-      <SheetContent className="sm:max-w-2xl">
+      <SheetContent className="sm:max-w-2xl px-4">
         <SheetHeader>
           <SheetTitle>
-            {t("history.detail.title")} {id ? `#${id}` : ""}
+            {t("history.detail.title")} - {data?.cart_name} -{" "}
+            {data?.completed_at
+              ? new Date(data.completed_at).toLocaleDateString(undefined, {
+                  day: "2-digit",
+                  month: "2-digit",
+                  year: "numeric",
+                })
+              : ""}
           </SheetTitle>
         </SheetHeader>
 
@@ -364,7 +448,7 @@ function PurchaseDetailSheet({
                 <div className="text-sm text-muted-foreground">
                   {t("history.detail.date.label")}
                 </div>
-                <div className="font-medium">{dateTime(data.created_at)}</div>
+                <div className="font-medium">{dateTime(data.completed_at)}</div>
               </div>
               <div className="space-y-1">
                 <div className="text-sm text-muted-foreground">
@@ -378,7 +462,8 @@ function PurchaseDetailSheet({
                 </div>
                 <div className="font-semibold">
                   {money(
-                    typeof data.total === "number" ? data.total : computedTotal
+                    Number(data.total_amount ?? computedTotal),
+                    data.currency ?? "EUR"
                   )}
                 </div>
               </div>
@@ -403,7 +488,7 @@ function PurchaseDetailSheet({
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {data.items.length === 0 && (
+                  {items.length === 0 && (
                     <TableRow>
                       <TableCell
                         colSpan={4}
@@ -413,30 +498,32 @@ function PurchaseDetailSheet({
                       </TableCell>
                     </TableRow>
                   )}
-                  {data.items.map((it) => (
-                    <TableRow key={it.id}>
-                      <TableCell className="flex items-center gap-2 font-medium">
-                        {it.item_name}
-                        {typeof it.subtotal === "number" && (
+                  {items.map((it, idx) => {
+                    const unit = Number(it.unit_price);
+                    const sub = unit * it.quantity;
+                    return (
+                      <TableRow key={`${it.name}-${it.created_at}-${idx}`}>
+                        <TableCell className="flex items-center gap-2 font-medium">
+                          {it.name}
                           <Badge
                             variant="secondary"
                             className="hidden sm:inline-flex"
                           >
-                            {money(it.subtotal)}
+                            {money(sub, data.currency)}
                           </Badge>
-                        )}
-                      </TableCell>
-                      <TableCell className="tabular-nums text-right">
-                        {it.item_amount}
-                      </TableCell>
-                      <TableCell className="text-right">
-                        {money(it.item_price)}
-                      </TableCell>
-                      <TableCell className="text-right">
-                        {money(it.subtotal ?? it.item_amount * it.item_price)}
-                      </TableCell>
-                    </TableRow>
-                  ))}
+                        </TableCell>
+                        <TableCell className="tabular-nums text-right">
+                          {it.quantity}
+                        </TableCell>
+                        <TableCell className="text-right">
+                          {money(unit, data.currency)}
+                        </TableCell>
+                        <TableCell className="text-right">
+                          {money(sub, data.currency)}
+                        </TableCell>
+                      </TableRow>
+                    );
+                  })}
                 </TableBody>
               </Table>
             </div>

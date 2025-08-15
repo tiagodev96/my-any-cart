@@ -1,13 +1,16 @@
 {
   "common": {
-    "loading": "Cargando…"
+    "loading": "Cargando…",
+    "cancel": "Cancelar"
   },
   "products": {
+    "creating": "Guardando...",
     "column": {
       "item": "Artículo",
       "quantity": "Cantidad",
       "unitPrice": "Precio unitario",
-      "actions": "Acciones"
+      "actions": "Acciones",
+      "creating": "Guardando..."
     },
     "cart": "Carrito",
     "history": "Historial",
@@ -78,6 +81,11 @@
     }
   },
   "history": {
+    "delete": {
+      "title": "Eliminar compra",
+      "desc": "¿Seguro que deseas eliminar esta compra? Esta acción no se puede deshacer.",
+      "confirm": "Eliminar"
+    },
     "title": "Historial de compras",
     "subtitle": "Consulta tus compras anteriores y los detalles de cada una.",
     "search": {
@@ -93,7 +101,8 @@
     },
     "actions": {
       "refresh": "Actualizar",
-      "details": "Detalles"
+      "details": "Detalles",
+      "delete": "Eliminar"
     },
     "badge": {
       "items": "artículos"

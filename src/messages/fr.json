@@ -1,13 +1,16 @@
 {
   "common": {
-    "loading": "Chargement…"
+    "loading": "Chargement…",
+    "cancel": "Annuler"
   },
   "products": {
+    "creating": "Création...",
     "column": {
       "item": "Article",
       "quantity": "Quantité",
       "unitPrice": "Prix unitaire",
-      "actions": "Actions"
+      "actions": "Actions",
+      "creating": "Création..."
     },
     "cart": "Panier",
     "history": "Historique",
@@ -78,6 +81,11 @@
     }
   },
   "history": {
+    "delete": {
+      "title": "Supprimer un achat",
+      "desc": "Êtes-vous sûr de vouloir supprimer cet achat ? Cette action ne peut pas être annulée.",
+      "confirm": "Supprimer"
+    },
     "title": "Historique des achats",
     "subtitle": "Consultez vos achats précédents et leurs détails.",
     "search": {
@@ -93,7 +101,8 @@
     },
     "actions": {
       "refresh": "Actualiser",
-      "details": "Détails"
+      "details": "Détails",
+      "delete": "Supprimer"
     },
     "badge": {
       "items": "articles"

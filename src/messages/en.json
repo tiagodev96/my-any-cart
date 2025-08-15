@@ -1,13 +1,16 @@
 {
   "common": {
-    "loading": "Loading…"
+    "loading": "Loading…",
+    "cancel": "Cancel"
   },
   "products": {
+    "creating": "Creating...",
     "column": {
       "item": "Item",
       "quantity": "Quantity",
       "unitPrice": "Unit Price",
-      "actions": "Actions"
+      "actions": "Actions",
+      "creating": "Creating..."
     },
     "cart": "Cart",
     "history": "History",
@@ -78,6 +81,11 @@
     }
   },
   "history": {
+    "delete": {
+      "title": "Delete purchase",
+      "desc": "Are you sure you want to delete this purchase? This action cannot be undone.",
+      "confirm": "Delete"
+    },
     "title": "Purchase History",
     "subtitle": "See your previous purchases and each one's details.",
     "search": {
@@ -93,7 +101,8 @@
     },
     "actions": {
       "refresh": "Refresh",
-      "details": "Details"
+      "details": "Details",
+      "delete": "Delete"
     },
     "badge": {
       "items": "items"
