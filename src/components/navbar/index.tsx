@@ -93,8 +93,8 @@ export default function Navbar({ user, loadingUser, onLogout }: NavbarProps) {
               MyAnyCart
             </Link>
             <div className="hidden items-center gap-2 sm:flex">
-              <NavLink href="/carrinho">{t("cart")}</NavLink>
-              <NavLink href="/historico">{t("history")}</NavLink>
+              <NavLink href="/">{t("cart")}</NavLink>
+              <NavLink href="/history">{t("history")}</NavLink>
             </div>
           </div>
 

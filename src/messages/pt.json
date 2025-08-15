@@ -1,4 +1,7 @@
 {
+  "common": {
+    "loading": "Carregando…"
+  },
   "products": {
     "column": {
       "item": "Item",
@@ -72,6 +75,43 @@
       "generic": "Erro ao fazer login: {message}",
       "loginSuccess": "Login realizado com sucesso!",
       "passwordMismatch": "As senhas não coincidem."
+    }
+  },
+  "history": {
+    "title": "Histórico de Compras",
+    "subtitle": "Veja suas compras anteriores e detalhes de cada uma.",
+    "search": {
+      "label": "Buscar",
+      "placeholder": "Filtrar por loja, data ou ID…"
+    },
+    "table": {
+      "store": "Loja",
+      "date": "Data",
+      "items": "Itens",
+      "total": "Total",
+      "actions": "Ações"
+    },
+    "actions": {
+      "refresh": "Atualizar",
+      "details": "Detalhes"
+    },
+    "badge": {
+      "items": "itens"
+    },
+    "empty": "Nenhuma compra encontrada.",
+    "detail": {
+      "title": "Detalhes da Compra",
+      "none": "Selecione uma compra.",
+      "date": { "label": "Data" },
+      "store": { "label": "Loja" },
+      "total": { "label": "Total" },
+      "table": {
+        "product": "Produto",
+        "qty": "Qtd",
+        "unit": "Preço",
+        "subtotal": "Subtotal"
+      },
+      "empty": "Sem itens nesta compra."
     }
   }
 }
