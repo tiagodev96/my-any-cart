@@ -14,12 +14,12 @@ This repository contains the **frontend application**. The backend (in developme
 - Local storage for persistent cart data
 - Real-time price calculation as items are added or updated
 - Edit and delete products easily
-
-### 🚧 Upcoming features
 - **Django REST API** backend integration
 - **PostgreSQL** database for reliable and scalable storage
 - Secure **user authentication**
 - **Purchase history** with date tracking
+
+### 🚧 Upcoming features
 - **Excel export** of purchase history
 - **Smart purchase identification** and categorization
 - **Dashboard** with:
