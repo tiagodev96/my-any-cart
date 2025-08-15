@@ -17,23 +17,11 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
 
 import { useAuth } from "@/contexts/AuthContext";
 import { GoogleLoginButton } from "@/components/auth/GoogleLoginButton";
-import { http } from "@/lib/http";
-import { loginUsernamePassword } from "@/services/auth";
-
-const REGISTER_ENDPOINT = "/api/users/";
-
-function getErrorMessage(err: unknown): string {
-  if (err instanceof Error) return err.message;
-  try {
-    return JSON.stringify(err);
-  } catch {
-    return "Erro desconhecido";
-  }
-}
+import { registerEmailPassword } from "@/services/auth";
+import { getErrorMessage } from "@/utils/get-error-message";
 
 export default function RegisterPage() {
   const t = useTranslations();
@@ -44,8 +32,9 @@ export default function RegisterPage() {
   const locale = pathname?.split("/").filter(Boolean)[0] || "pt";
   const next = search.get("next") || `/${locale}`;
 
-  const [name, setName] = React.useState("");
-  const [username, setUsername] = React.useState("");
+  const [firstName, setFirstName] = React.useState("");
+  const [lastName, setLastName] = React.useState("");
+  const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [confirm, setConfirm] = React.useState("");
   const [busy, setBusy] = React.useState(false);
@@ -57,8 +46,11 @@ export default function RegisterPage() {
   async function handleRegister(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
-    if (!username || !password) {
-      toast.error(t("auth.errors.fillUserPass"));
+    if (!email || !password || !firstName || !lastName) {
+      toast.error(
+        t("auth.errors.fillAllRequired") ||
+          "Preencha todos os campos obrigatórios."
+      );
       return;
     }
     if (password !== confirm) {
@@ -68,14 +60,15 @@ export default function RegisterPage() {
 
     setBusy(true);
     try {
-      await http<unknown>(REGISTER_ENDPOINT, {
-        method: "POST",
-        body: JSON.stringify({ username, name, password }),
+      const tokens = await registerEmailPassword({
+        first_name: firstName.trim(),
+        last_name: lastName.trim(),
+        email: email.trim(),
+        password,
+        password2: confirm,
       });
 
-      const tokens = await loginUsernamePassword(username, password);
       await loginWithBackendTokens(tokens);
-
       toast.success(t("auth.register.registerSuccess"));
       router.replace(next);
     } catch (err: unknown) {
@@ -95,65 +88,84 @@ export default function RegisterPage() {
         </CardHeader>
 
         <CardContent className="space-y-4">
-          <form className="space-y-4" onSubmit={handleRegister}>
-            <div className="space-y-2">
-              <Label htmlFor="name">{t("auth.register.name")}</Label>
-              <Input
-                id="name"
-                value={name}
-                onChange={(e) => setName(e.currentTarget.value)}
-                placeholder={t("auth.register.namePlaceholder")}
-              />
+          <form onSubmit={handleRegister} className="space-y-4">
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+              <div className="space-y-2">
+                <Label htmlFor="first_name">
+                  {t("auth.register.firstName") || "Nome"}
+                </Label>
+                <Input
+                  id="first_name"
+                  value={firstName}
+                  onChange={(e) => setFirstName(e.target.value)}
+                  required
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="last_name">
+                  {t("auth.register.lastName") || "Sobrenome"}
+                </Label>
+                <Input
+                  id="last_name"
+                  value={lastName}
+                  onChange={(e) => setLastName(e.target.value)}
+                  required
+                />
+              </div>
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="username">{t("auth.register.username")}</Label>
+              <Label htmlFor="email">
+                {t("auth.register.email") || "Email"}
+              </Label>
               <Input
-                id="username"
-                autoComplete="username"
-                value={username}
-                onChange={(e) => setUsername(e.currentTarget.value)}
-                placeholder={t("auth.register.usernamePlaceholder")}
+                id="email"
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 required
               />
             </div>
 
-            <div className="space-y-2">
-              <Label htmlFor="password">{t("auth.register.password")}</Label>
-              <Input
-                id="password"
-                type="password"
-                autoComplete="new-password"
-                value={password}
-                onChange={(e) => setPassword(e.currentTarget.value)}
-                placeholder={t("auth.register.passwordPlaceholder")}
-                required
-              />
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+              <div className="space-y-2">
+                <Label htmlFor="password">{t("auth.register.password")}</Label>
+                <Input
+                  id="password"
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="confirm">
+                  {t("auth.register.confirmPassword")}
+                </Label>
+                <Input
+                  id="confirm"
+                  type="password"
+                  value={confirm}
+                  onChange={(e) => setConfirm(e.target.value)}
+                  required
+                />
+              </div>
             </div>
 
-            <div className="space-y-2">
-              <Label htmlFor="confirm">{t("auth.register.confirm")}</Label>
-              <Input
-                id="confirm"
-                type="password"
-                autoComplete="new-password"
-                value={confirm}
-                onChange={(e) => setConfirm(e.currentTarget.value)}
-                placeholder={t("auth.register.confirmPlaceholder")}
-                required
-              />
-            </div>
-
-            <Button type="submit" disabled={busy} className="w-full">
-              {busy ? t("auth.register.creating") : t("auth.register.create")}
+            <Button type="submit" className="w-full" disabled={busy}>
+              {busy ? t("auth.register.creating") : t("auth.register.cta")}
             </Button>
           </form>
 
-          <div className="relative">
-            <Separator className="my-6" />
-            <div className="absolute inset-x-0 -top-3 flex justify-center">
-              <span className="bg-background px-2 text-xs opacity-70">
-                {t("auth.register.or")}
+          <div className="relative my-2">
+            <div aria-hidden className="absolute inset-0 flex items-center">
+              <span className="w-full border-t" />
+            </div>
+            <div className="relative flex justify-center text-xs uppercase">
+              <span className="bg-background px-2 opacity-60">
+                {t("auth.orContinueWith")}
               </span>
             </div>
           </div>
@@ -163,7 +175,10 @@ export default function RegisterPage() {
 
         <CardFooter className="flex justify-between text-sm">
           <span className="opacity-80">{t("auth.register.haveAccount")}</span>
-          <Link href={`/${locale}/login?next=${encodeURIComponent(next)}`} className="underline">
+          <Link
+            href={`/${locale}/login?next=${encodeURIComponent(next)}`}
+            className="underline"
+          >
             {t("auth.register.goToLogin")}
           </Link>
         </CardFooter>

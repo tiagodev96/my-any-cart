@@ -13,66 +13,55 @@ type AuthContextValue = {
   reloadUser: () => Promise<void>;
 };
 
-const AuthContext = React.createContext<AuthContextValue | undefined>(
-  undefined
-);
+const AuthContext = React.createContext<AuthContextValue | null>(null);
 
-function userFromAccess(access: string): User | null {
-  const payload = decodeJwt<Record<string, unknown>>(access);
-  if (!payload) return null;
-
+function userFromTokens(tokens: AuthTokens): User | null {
+  if (tokens.user) return tokens.user;
+  const payload = decodeJwt<{ user_id?: number; sub?: string }>(tokens.access);
   const id =
-    (payload.user_id as number | undefined) ??
-    (typeof payload.sub === "number" ? (payload.sub as number) : undefined);
-
-  const email =
-    (payload.email as string | undefined) ??
-    (payload.username as string | undefined);
-
-  if (!id && !email) return null;
-  return { id: id ?? -1, email: email ?? "" };
+    payload?.user_id ?? (payload?.sub ? Number(payload.sub) : undefined);
+  if (!id) return null;
+  return { id, email: "", name: undefined };
 }
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = React.useState<User | null>(null);
-  const [loading, setLoading] = React.useState<boolean>(true);
+  const [loading, setLoading] = React.useState(true);
 
-  const logout = React.useCallback((): void => {
-    authStore.clear();
-    setUser(null);
-  }, []);
-
-  const reloadUser = React.useCallback(async (): Promise<void> => {
+  React.useEffect(() => {
     const session = authStore.get();
-    if (!session?.access) {
+    if (session) {
+      const u = session.user ?? userFromTokens(session);
+      setUser(u ?? null);
+    } else {
       setUser(null);
-      return;
     }
-    if (session.user?.id) {
-      setUser(session.user);
-      return;
-    }
-    setUser(userFromAccess(session.access));
+    setLoading(false);
   }, []);
 
   const loginWithBackendTokens = React.useCallback(
-    async (tokens: AuthTokens): Promise<void> => {
-      const u = tokens.user ?? userFromAccess(tokens.access);
-      authStore.set({ ...tokens, user: u ?? undefined });
+    async (tokens: AuthTokens) => {
+      const u = tokens.user ?? userFromTokens(tokens);
+      const session: AuthTokens = { ...tokens, user: u ?? undefined };
+      authStore.set(session);
       setUser(u ?? null);
     },
     []
   );
 
-  React.useEffect(() => {
-    (async () => {
-      const session = authStore.get();
-      if (session?.access) {
-        const u = session.user ?? userFromAccess(session.access);
-        setUser(u ?? null);
-      }
-      setLoading(false);
-    })();
+  const logout = React.useCallback(() => {
+    authStore.clear();
+    setUser(null);
+  }, []);
+
+  const reloadUser = React.useCallback(async () => {
+    const session = authStore.get();
+    if (!session) {
+      setUser(null);
+      return;
+    }
+    const u = session.user ?? userFromTokens(session);
+    setUser(u ?? null);
   }, []);
 
   return (

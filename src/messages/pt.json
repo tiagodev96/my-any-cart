@@ -31,7 +31,12 @@
     "total": "Total"
   },
   "auth": {
+    "orContinueWith": "ou continue com",
     "register": {
+      "firstName": "Nome",
+      "lastName": "Sobrenome",
+      "email": "E-mail",
+      "confirmPassword": "Confirme sua senha",
       "title": "Criar conta",
       "description": "Crie sua conta para continuar.",
       "username": "Usuário",
@@ -47,7 +52,7 @@
       "haveAccount": "Já tem conta?",
       "goToLogin": "Ir para login",
       "confirm": "Confirme sua senha",
-      "create": "Criar conta",
+      "cta": "Criar conta",
       "creating": "Criando conta…"
     },
     "login": {
