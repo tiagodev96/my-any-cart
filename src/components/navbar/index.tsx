@@ -15,8 +15,11 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
 import { useTranslations } from "next-intl";
+import Container from "../container";
 
 type User = {
+  id?: number;
+  email?: string;
   firstName: string;
   lastName: string;
   avatarUrl?: string | null;
@@ -24,6 +27,7 @@ type User = {
 
 type NavbarProps = {
   user?: User | null;
+  loadingUser?: boolean;
   onLogout?: () => void;
 };
 
@@ -36,12 +40,25 @@ function getInitials(firstName?: string, lastName?: string) {
   return res || "??";
 }
 
-export default function Navbar({ user, onLogout }: NavbarProps) {
+function buildFullName(u?: User | null) {
+  if (!u) return "Convidado";
+  const full =
+    [u.firstName, u.lastName].filter(Boolean).join(" ").trim() ||
+    (u.email ? u.email.split("@")[0] : "") ||
+    "Convidado";
+  return full;
+}
+
+export default function Navbar({ user, loadingUser, onLogout }: NavbarProps) {
   const t = useTranslations("products");
   const pathname = usePathname();
+  const locale = React.useMemo(
+    () => pathname?.split("/").filter(Boolean)[0] || "pt",
+    [pathname]
+  );
+
   const initials = getInitials(user?.firstName, user?.lastName);
-  const fullName =
-    [user?.firstName, user?.lastName].filter(Boolean).join(" ") || "Convidado";
+  const fullName = buildFullName(user);
 
   const NavLink = ({
     href,
@@ -50,10 +67,11 @@ export default function Navbar({ user, onLogout }: NavbarProps) {
     href: string;
     children: React.ReactNode;
   }) => {
-    const active = pathname === href;
+    const fullHref = `/${locale}${href.startsWith("/") ? href : `/${href}`}`;
+    const active = pathname === fullHref;
     return (
       <Link
-        href={href}
+        href={fullHref}
         className={cn(
           "px-2 py-1 text-sm transition-colors",
           active
@@ -68,54 +86,80 @@ export default function Navbar({ user, onLogout }: NavbarProps) {
 
   return (
     <header className="sticky top-0 z-40 w-full border-b bg-background/60 backdrop-blur">
-      <nav className="mx-auto flex h-14 max-w-6xl items-center justify-between px-4">
-        <div className="flex items-center gap-6">
-          <Link href="/" className="font-semibold tracking-tight">
-            MyAnyCart
-          </Link>
-          <div className="hidden items-center gap-2 sm:flex">
-            <NavLink href="/carrinho">{t("cart")}</NavLink>
-            <NavLink href="/historico">{t("history")}</NavLink>
+      <Container verticalPadding={false}>
+        <nav className="mx-auto flex h-14 items-center justify-between">
+          <div className="flex items-center gap-6">
+            <Link href={`/${locale}`} className="font-semibold tracking-tight">
+              MyAnyCart
+            </Link>
+            <div className="hidden items-center gap-2 sm:flex">
+              <NavLink href="/carrinho">{t("cart")}</NavLink>
+              <NavLink href="/historico">{t("history")}</NavLink>
+            </div>
           </div>
-        </div>
 
-        <div className="flex items-center gap-3">
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button
-                variant="ghost"
-                className="flex items-center gap-3 px-1 hover:bg-transparent"
-              >
-                <Avatar className="h-8 w-8">
-                  {user?.avatarUrl ? (
-                    <AvatarImage src={user.avatarUrl} alt={fullName} />
-                  ) : (
-                    <AvatarFallback>{initials}</AvatarFallback>
-                  )}
-                </Avatar>
-                <span className="hidden text-sm sm:inline-block">
-                  {fullName}
-                </span>
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" sideOffset={8} className="w-44">
-              <DropdownMenuLabel className="truncate">
-                {fullName}
-              </DropdownMenuLabel>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem asChild>
-                <Link href="/perfil">{t("profile")}</Link>
-              </DropdownMenuItem>
-              <DropdownMenuItem
-                onClick={onLogout}
-                className="text-destructive focus:text-destructive"
-              >
-                {t("logout")}
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-        </div>
-      </nav>
+          <div className="flex items-center gap-3">
+            {/* estado de loading do /me */}
+            {loadingUser ? (
+              <div className="flex items-center gap-3">
+                <div className="h-8 w-8 animate-pulse rounded-full bg-muted" />
+                <div className="hidden h-4 w-24 animate-pulse rounded bg-muted sm:block" />
+              </div>
+            ) : user ? (
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button
+                    variant="ghost"
+                    className="flex items-center gap-3 px-1 hover:bg-transparent"
+                  >
+                    <Avatar className="h-8 w-8">
+                      {user.avatarUrl ? (
+                        <AvatarImage src={user.avatarUrl} alt={fullName} />
+                      ) : (
+                        <AvatarFallback>{initials}</AvatarFallback>
+                      )}
+                    </Avatar>
+                    <span className="hidden max-w-[160px] truncate text-sm sm:inline-block">
+                      {fullName}
+                    </span>
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent
+                  align="end"
+                  sideOffset={8}
+                  className="w-48"
+                >
+                  <DropdownMenuLabel className="truncate">
+                    {fullName}
+                  </DropdownMenuLabel>
+                  {user.email ? (
+                    <div className="px-2 pb-1 text-xs text-muted-foreground truncate">
+                      {user.email}
+                    </div>
+                  ) : null}
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem asChild>
+                    <Link href={`/${locale}/perfil`}>{t("profile")}</Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem
+                    onClick={onLogout}
+                    className="text-destructive focus:text-destructive"
+                  >
+                    {t("logout")}
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            ) : (
+              // sem usuário: botão de entrar
+              <Link href={`/${locale}/login`}>
+                <Button variant="default" size="sm">
+                  {t("login") ?? "Entrar"}
+                </Button>
+              </Link>
+            )}
+          </div>
+        </nav>
+      </Container>
     </header>
   );
 }

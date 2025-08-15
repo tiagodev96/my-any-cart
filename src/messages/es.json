@@ -8,26 +8,65 @@
     },
     "cart": "Carrito",
     "history": "Historial",
-    "profile": "Perfil",
-    "logout": "Cerrar sesión",
     "clearCart": "Vaciar carrito",
     "emptyCart": "Carrito vacío",
+    "profile": "Perfil",
+    "logout": "Cerrar sesión",
     "actions": {
       "edit": "Editar",
       "delete": "Eliminar",
-      "addProduct": "Añadir producto",
+      "addProduct": "Agregar producto",
       "save": "Guardar",
       "cancel": "Cancelar",
       "dialog-title": "Confirmación",
-      "dialog-description": "¿Seguro que deseas continuar?",
+      "dialog-description": "¿Está seguro de que desea continuar?",
       "confirm": "Confirmar",
       "removeItem": "¿Eliminar artículo?",
-      "removeItemDescription": "¿Seguro que deseas eliminar <b>{item}</b> del carrito? Esta acción no se puede deshacer."
+      "removeItemDescription": "¿Está seguro de que desea eliminar <b>{item}</b> del carrito? Esta acción no se puede deshacer."
     },
     "emptyState": {
-      "text": "Añade un producto para empezar la lista"
+      "text": "Agregue un producto para comenzar la lista"
     },
     "searchPlaceholder": "Buscar artículos...",
     "total": "Total"
+  },
+  "auth": {
+    "register": {
+      "title": "Crear cuenta",
+      "description": "Cree su cuenta para continuar.",
+      "username": "Usuario",
+      "password": "Contraseña",
+      "enter": "Crear cuenta",
+      "registerSuccess": "¡Cuenta creada con éxito!",
+      "name": "Nombre",
+      "namePlaceholder": "Ingrese su nombre",
+      "usernamePlaceholder": "Ingrese su usuario",
+      "passwordPlaceholder": "Ingrese su contraseña",
+      "confirmPlaceholder": "Confirme su contraseña",
+      "or": "o",
+      "haveAccount": "¿Ya tiene una cuenta?",
+      "goToLogin": "Ir a iniciar sesión",
+      "confirm": "Confirme su contraseña",
+      "create": "Crear cuenta",
+      "creating": "Creando cuenta…"
+    },
+    "login": {
+      "title": "Iniciar sesión",
+      "description": "Acceda a su cuenta para continuar.",
+      "username": "Usuario",
+      "password": "Contraseña",
+      "enter": "Entrar",
+      "createAccount": "Crear cuenta",
+      "or": "o",
+      "noAccount": "¿Aún no tiene cuenta?",
+      "entering": "Entrando…",
+      "loginSuccess": "¡Inicio de sesión exitoso!"
+    },
+    "errors": {
+      "fillUserPass": "Complete usuario y contraseña.",
+      "generic": "Error al iniciar sesión: {message}",
+      "loginSuccess": "¡Inicio de sesión exitoso!",
+      "passwordMismatch": "Las contraseñas no coinciden."
+    }
   }
 }

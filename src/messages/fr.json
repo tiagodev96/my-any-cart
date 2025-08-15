@@ -8,10 +8,10 @@
     },
     "cart": "Panier",
     "history": "Historique",
-    "profile": "Profil",
-    "logout": "Déconnexion",
     "clearCart": "Vider le panier",
     "emptyCart": "Panier vide",
+    "profile": "Profil",
+    "logout": "Se déconnecter",
     "actions": {
       "edit": "Modifier",
       "delete": "Supprimer",
@@ -21,13 +21,52 @@
       "dialog-title": "Confirmation",
       "dialog-description": "Êtes-vous sûr de vouloir continuer ?",
       "confirm": "Confirmer",
-      "removeItem": "Supprimer l’article ?",
-      "removeItemDescription": "Êtes-vous sûr de vouloir supprimer <b>{item}</b> du panier ? Cette action est irréversible."
+      "removeItem": "Retirer l'article ?",
+      "removeItemDescription": "Êtes-vous sûr de vouloir retirer <b>{item}</b> du panier ? Cette action est irréversible."
     },
     "emptyState": {
       "text": "Ajoutez un produit pour commencer la liste"
     },
-    "searchPlaceholder": "Rechercher des articles…",
+    "searchPlaceholder": "Rechercher des articles...",
     "total": "Total"
+  },
+  "auth": {
+    "register": {
+      "title": "Créer un compte",
+      "description": "Créez votre compte pour continuer.",
+      "username": "Nom d'utilisateur",
+      "password": "Mot de passe",
+      "enter": "Créer un compte",
+      "registerSuccess": "Compte créé avec succès !",
+      "name": "Nom",
+      "namePlaceholder": "Entrez votre nom",
+      "usernamePlaceholder": "Entrez votre nom d'utilisateur",
+      "passwordPlaceholder": "Entrez votre mot de passe",
+      "confirmPlaceholder": "Confirmez votre mot de passe",
+      "or": "ou",
+      "haveAccount": "Vous avez déjà un compte ?",
+      "goToLogin": "Aller à la connexion",
+      "confirm": "Confirmez votre mot de passe",
+      "create": "Créer un compte",
+      "creating": "Création du compte…"
+    },
+    "login": {
+      "title": "Connexion",
+      "description": "Accédez à votre compte pour continuer.",
+      "username": "Nom d'utilisateur",
+      "password": "Mot de passe",
+      "enter": "Se connecter",
+      "createAccount": "Créer un compte",
+      "or": "ou",
+      "noAccount": "Vous n'avez pas encore de compte ?",
+      "entering": "Connexion…",
+      "loginSuccess": "Connexion réussie !"
+    },
+    "errors": {
+      "fillUserPass": "Veuillez remplir le nom d'utilisateur et le mot de passe.",
+      "generic": "Erreur lors de la connexion : {message}",
+      "loginSuccess": "Connexion réussie !",
+      "passwordMismatch": "Les mots de passe ne correspondent pas."
+    }
   }
 }
