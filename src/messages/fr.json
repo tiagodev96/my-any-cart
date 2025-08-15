@@ -1,4 +1,7 @@
 {
+  "common": {
+    "loading": "Chargement…"
+  },
   "products": {
     "column": {
       "item": "Article",
@@ -19,10 +22,10 @@
       "save": "Enregistrer",
       "cancel": "Annuler",
       "dialog-title": "Confirmation",
-      "dialog-description": "Êtes-vous sûr de vouloir continuer ?",
+      "dialog-description": "Voulez-vous vraiment continuer ?",
       "confirm": "Confirmer",
-      "removeItem": "Retirer l'article ?",
-      "removeItemDescription": "Êtes-vous sûr de vouloir retirer <b>{item}</b> du panier ? Cette action est irréversible."
+      "removeItem": "Supprimer l'article ?",
+      "removeItemDescription": "Voulez-vous vraiment supprimer <b>{item}</b> du panier ? Cette action ne peut pas être annulée."
     },
     "emptyState": {
       "text": "Ajoutez un produit pour commencer la liste"
@@ -31,7 +34,12 @@
     "total": "Total"
   },
   "auth": {
+    "orContinueWith": "ou continuer avec",
     "register": {
+      "firstName": "Prénom",
+      "lastName": "Nom",
+      "email": "E-mail",
+      "confirmPassword": "Confirmez votre mot de passe",
       "title": "Créer un compte",
       "description": "Créez votre compte pour continuer.",
       "username": "Nom d'utilisateur",
@@ -39,19 +47,19 @@
       "enter": "Créer un compte",
       "registerSuccess": "Compte créé avec succès !",
       "name": "Nom",
-      "namePlaceholder": "Entrez votre nom",
-      "usernamePlaceholder": "Entrez votre nom d'utilisateur",
-      "passwordPlaceholder": "Entrez votre mot de passe",
+      "namePlaceholder": "Saisissez votre nom",
+      "usernamePlaceholder": "Saisissez votre nom d'utilisateur",
+      "passwordPlaceholder": "Saisissez votre mot de passe",
       "confirmPlaceholder": "Confirmez votre mot de passe",
       "or": "ou",
       "haveAccount": "Vous avez déjà un compte ?",
       "goToLogin": "Aller à la connexion",
       "confirm": "Confirmez votre mot de passe",
-      "create": "Créer un compte",
+      "cta": "Créer un compte",
       "creating": "Création du compte…"
     },
     "login": {
-      "title": "Connexion",
+      "title": "Se connecter",
       "description": "Accédez à votre compte pour continuer.",
       "username": "Nom d'utilisateur",
       "password": "Mot de passe",
@@ -63,10 +71,47 @@
       "loginSuccess": "Connexion réussie !"
     },
     "errors": {
-      "fillUserPass": "Veuillez remplir le nom d'utilisateur et le mot de passe.",
-      "generic": "Erreur lors de la connexion : {message}",
+      "fillUserPass": "Saisissez le nom d’utilisateur et le mot de passe.",
+      "generic": "Erreur de connexion : {message}",
       "loginSuccess": "Connexion réussie !",
       "passwordMismatch": "Les mots de passe ne correspondent pas."
+    }
+  },
+  "history": {
+    "title": "Historique des achats",
+    "subtitle": "Consultez vos achats précédents et leurs détails.",
+    "search": {
+      "label": "Rechercher",
+      "placeholder": "Filtrer par magasin, date ou ID…"
+    },
+    "table": {
+      "store": "Magasin",
+      "date": "Date",
+      "items": "Articles",
+      "total": "Total",
+      "actions": "Actions"
+    },
+    "actions": {
+      "refresh": "Actualiser",
+      "details": "Détails"
+    },
+    "badge": {
+      "items": "articles"
+    },
+    "empty": "Aucun achat trouvé.",
+    "detail": {
+      "title": "Détails de l'achat",
+      "none": "Sélectionnez un achat.",
+      "date": { "label": "Date" },
+      "store": { "label": "Magasin" },
+      "total": { "label": "Total" },
+      "table": {
+        "product": "Produit",
+        "qty": "Qté",
+        "unit": "Prix",
+        "subtotal": "Sous-total"
+      },
+      "empty": "Aucun article dans cet achat."
     }
   }
 }

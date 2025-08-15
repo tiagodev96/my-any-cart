@@ -1,4 +1,7 @@
 {
+  "common": {
+    "loading": "Loading…"
+  },
   "products": {
     "column": {
       "item": "Item",
@@ -9,9 +12,9 @@
     "cart": "Cart",
     "history": "History",
     "clearCart": "Clear cart",
-    "emptyCart": "Cart empty",
+    "emptyCart": "Empty cart",
     "profile": "Profile",
-    "logout": "Logout",
+    "logout": "Log out",
     "actions": {
       "edit": "Edit",
       "delete": "Delete",
@@ -31,7 +34,12 @@
     "total": "Total"
   },
   "auth": {
+    "orContinueWith": "or continue with",
     "register": {
+      "firstName": "First name",
+      "lastName": "Last name",
+      "email": "Email",
+      "confirmPassword": "Confirm your password",
       "title": "Create account",
       "description": "Create your account to continue.",
       "username": "Username",
@@ -47,26 +55,63 @@
       "haveAccount": "Already have an account?",
       "goToLogin": "Go to login",
       "confirm": "Confirm your password",
-      "create": "Create account",
+      "cta": "Create account",
       "creating": "Creating account…"
     },
     "login": {
-      "title": "Login",
+      "title": "Sign in",
       "description": "Access your account to continue.",
       "username": "Username",
       "password": "Password",
-      "enter": "Login",
+      "enter": "Sign in",
       "createAccount": "Create account",
       "or": "or",
       "noAccount": "Don't have an account yet?",
-      "entering": "Logging in…",
+      "entering": "Signing in…",
       "loginSuccess": "Login successful!"
     },
     "errors": {
-      "fillUserPass": "Fill in username and password.",
-      "generic": "Error logging in: {message}",
+      "fillUserPass": "Enter username and password.",
+      "generic": "Login error: {message}",
       "loginSuccess": "Login successful!",
       "passwordMismatch": "Passwords do not match."
+    }
+  },
+  "history": {
+    "title": "Purchase History",
+    "subtitle": "See your previous purchases and each one's details.",
+    "search": {
+      "label": "Search",
+      "placeholder": "Filter by store, date or ID…"
+    },
+    "table": {
+      "store": "Store",
+      "date": "Date",
+      "items": "Items",
+      "total": "Total",
+      "actions": "Actions"
+    },
+    "actions": {
+      "refresh": "Refresh",
+      "details": "Details"
+    },
+    "badge": {
+      "items": "items"
+    },
+    "empty": "No purchases found.",
+    "detail": {
+      "title": "Purchase Details",
+      "none": "Select a purchase.",
+      "date": { "label": "Date" },
+      "store": { "label": "Store" },
+      "total": { "label": "Total" },
+      "table": {
+        "product": "Product",
+        "qty": "Qty",
+        "unit": "Price",
+        "subtotal": "Subtotal"
+      },
+      "empty": "No items in this purchase."
     }
   }
 }

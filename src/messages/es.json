@@ -1,4 +1,7 @@
 {
+  "common": {
+    "loading": "Cargando…"
+  },
   "products": {
     "column": {
       "item": "Artículo",
@@ -15,58 +18,100 @@
     "actions": {
       "edit": "Editar",
       "delete": "Eliminar",
-      "addProduct": "Agregar producto",
+      "addProduct": "Añadir producto",
       "save": "Guardar",
       "cancel": "Cancelar",
       "dialog-title": "Confirmación",
-      "dialog-description": "¿Está seguro de que desea continuar?",
+      "dialog-description": "¿Seguro que deseas continuar?",
       "confirm": "Confirmar",
       "removeItem": "¿Eliminar artículo?",
-      "removeItemDescription": "¿Está seguro de que desea eliminar <b>{item}</b> del carrito? Esta acción no se puede deshacer."
+      "removeItemDescription": "¿Seguro que deseas eliminar <b>{item}</b> del carrito? Esta acción no se puede deshacer."
     },
     "emptyState": {
-      "text": "Agregue un producto para comenzar la lista"
+      "text": "Añade un producto para empezar la lista"
     },
     "searchPlaceholder": "Buscar artículos...",
     "total": "Total"
   },
   "auth": {
+    "orContinueWith": "o continúa con",
     "register": {
+      "firstName": "Nombre",
+      "lastName": "Apellido",
+      "email": "Correo electrónico",
+      "confirmPassword": "Confirma tu contraseña",
       "title": "Crear cuenta",
-      "description": "Cree su cuenta para continuar.",
+      "description": "Crea tu cuenta para continuar.",
       "username": "Usuario",
       "password": "Contraseña",
       "enter": "Crear cuenta",
       "registerSuccess": "¡Cuenta creada con éxito!",
       "name": "Nombre",
-      "namePlaceholder": "Ingrese su nombre",
-      "usernamePlaceholder": "Ingrese su usuario",
-      "passwordPlaceholder": "Ingrese su contraseña",
-      "confirmPlaceholder": "Confirme su contraseña",
+      "namePlaceholder": "Introduce tu nombre",
+      "usernamePlaceholder": "Introduce tu usuario",
+      "passwordPlaceholder": "Introduce tu contraseña",
+      "confirmPlaceholder": "Confirma tu contraseña",
       "or": "o",
-      "haveAccount": "¿Ya tiene una cuenta?",
-      "goToLogin": "Ir a iniciar sesión",
-      "confirm": "Confirme su contraseña",
-      "create": "Crear cuenta",
+      "haveAccount": "¿Ya tienes cuenta?",
+      "goToLogin": "Ir al inicio de sesión",
+      "confirm": "Confirma tu contraseña",
+      "cta": "Crear cuenta",
       "creating": "Creando cuenta…"
     },
     "login": {
       "title": "Iniciar sesión",
-      "description": "Acceda a su cuenta para continuar.",
+      "description": "Accede a tu cuenta para continuar.",
       "username": "Usuario",
       "password": "Contraseña",
-      "enter": "Entrar",
+      "enter": "Iniciar sesión",
       "createAccount": "Crear cuenta",
       "or": "o",
-      "noAccount": "¿Aún no tiene cuenta?",
-      "entering": "Entrando…",
+      "noAccount": "¿Aún no tienes cuenta?",
+      "entering": "Iniciando sesión…",
       "loginSuccess": "¡Inicio de sesión exitoso!"
     },
     "errors": {
-      "fillUserPass": "Complete usuario y contraseña.",
-      "generic": "Error al iniciar sesión: {message}",
+      "fillUserPass": "Introduce usuario y contraseña.",
+      "generic": "Error de inicio de sesión: {message}",
       "loginSuccess": "¡Inicio de sesión exitoso!",
       "passwordMismatch": "Las contraseñas no coinciden."
+    }
+  },
+  "history": {
+    "title": "Historial de compras",
+    "subtitle": "Consulta tus compras anteriores y los detalles de cada una.",
+    "search": {
+      "label": "Buscar",
+      "placeholder": "Filtrar por tienda, fecha o ID…"
+    },
+    "table": {
+      "store": "Tienda",
+      "date": "Fecha",
+      "items": "Artículos",
+      "total": "Total",
+      "actions": "Acciones"
+    },
+    "actions": {
+      "refresh": "Actualizar",
+      "details": "Detalles"
+    },
+    "badge": {
+      "items": "artículos"
+    },
+    "empty": "No se encontraron compras.",
+    "detail": {
+      "title": "Detalles de la compra",
+      "none": "Selecciona una compra.",
+      "date": { "label": "Fecha" },
+      "store": { "label": "Tienda" },
+      "total": { "label": "Total" },
+      "table": {
+        "product": "Producto",
+        "qty": "Cant.",
+        "unit": "Precio",
+        "subtotal": "Subtotal"
+      },
+      "empty": "No hay artículos en esta compra."
     }
   }
 }
