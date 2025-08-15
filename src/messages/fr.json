@@ -34,7 +34,21 @@
       "text": "Ajoutez un produit pour commencer la liste"
     },
     "searchPlaceholder": "Rechercher des articles...",
-    "total": "Total"
+    "total": "Total",
+    "saveDialog": {
+      "title": "Enregistrer la commande",
+      "desc": "Enregistrez la commande pour pouvoir la consulter plus tard.",
+      "cartName": "Nom de la commande",
+      "currency": "Devise",
+      "notes": "Notes",
+      "tags": "Tags",
+      "summary": "Récapitulatif de la commande",
+      "products": "Produits",
+      "currencyLabel": "Devise",
+      "idempotencyKey": "ID d'idempotence",
+      "idempotencyKeyDescription": "Généré automatiquement",
+      "store": "Magasin"
+    }
   },
   "auth": {
     "orContinueWith": "ou continuer avec",

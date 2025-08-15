@@ -34,7 +34,21 @@
       "text": "Add a product to start the list"
     },
     "searchPlaceholder": "Search items...",
-    "total": "Total"
+    "total": "Total",
+    "saveDialog": {
+      "title": "Save purchase",
+      "desc": "Save the purchase to be able to view it later.",
+      "cartName": "Cart name",
+      "currency": "Currency",
+      "notes": "Notes",
+      "tags": "Tags",
+      "summary": "Summary",
+      "products": "Products",
+      "currencyLabel": "Currency",
+      "idempotencyKey": "Idempotency key",
+      "idempotencyKeyDescription": "Generated automatically",
+      "store": "Store"
+    }
   },
   "auth": {
     "orContinueWith": "or continue with",

@@ -34,7 +34,21 @@
       "text": "Adicione um produto para começar a lista"
     },
     "searchPlaceholder": "Buscar itens...",
-    "total": "Total"
+    "total": "Total",
+    "saveDialog": {
+      "title": "Salvar compra",
+      "desc": "Salve a compra para poder visualizar mais tarde.",
+      "cartName": "Nome do carrinho",
+      "currency": "Moeda",
+      "notes": "Notas",
+      "tags": "Tags",
+      "summary": "Resumo da compra",
+      "products": "Produtos",
+      "currencyLabel": "Moeda",
+      "idempotencyKey": "ID de idempotência",
+      "idempotencyKeyDescription": "Gerado automaticamente",
+      "store": "Loja"
+    }
   },
   "auth": {
     "orContinueWith": "ou continue com",

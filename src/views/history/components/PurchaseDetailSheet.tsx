@@ -29,11 +29,15 @@ type Props = {
 
 export default function PurchaseDetailSheet({ open, id, onOpenChange }: Props) {
   const t = useTranslations();
-  const { setOpen, data, loading, error } = usePurchaseDetail();
+  const { setOpen, setId, data, loading, error } = usePurchaseDetail();
 
+  // Keep hook in sync with the sheet's state/selection
   React.useEffect(() => {
     setOpen(open);
-  }, [open, setOpen]);
+    setId(id ?? null);
+    // when unmount/close, clear the selection
+    return () => setId(null);
+  }, [open, id, setOpen, setId]);
 
   const items = data?.items ?? [];
   const computedTotal = items.reduce(
@@ -46,13 +50,13 @@ export default function PurchaseDetailSheet({ open, id, onOpenChange }: Props) {
       <SheetContent className="sm:max-w-2xl px-4">
         <SheetHeader>
           <SheetTitle>
-            {t("history.detail.title")} - {data?.cart_name} -{" "}
+            {t("history.detail.title")} - {data?.cart_name}{" "}
             {data?.completed_at
-              ? new Date(data.completed_at).toLocaleDateString(undefined, {
+              ? `- ${new Date(data.completed_at).toLocaleDateString(undefined, {
                   day: "2-digit",
                   month: "2-digit",
                   year: "numeric",
-                })
+                })}`
               : ""}
           </SheetTitle>
         </SheetHeader>
