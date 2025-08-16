@@ -141,7 +141,10 @@ export default function Navbar({ user, loadingUser, onLogout }: NavbarProps) {
                   ) : null}
                   <DropdownMenuSeparator />
                   <DropdownMenuItem asChild>
-                    <Link href={`/${locale}/perfil`}>{t("profile")}</Link>
+                    <Link href={`/${locale}/profile`}>{t("profile")}</Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem asChild>
+                    <Link href={`/${locale}/history`}>{t("history")}</Link>
                   </DropdownMenuItem>
                   <DropdownMenuItem
                     onClick={onLogout}

@@ -20,6 +20,7 @@ import SearchBar from "./components/SearchBar";
 import PurchasesTable from "./components/PurchasesTable";
 import PurchaseDetailSheet from "./components/PurchaseDetailSheet";
 import DeleteDialog from "./components/DeleteDialog";
+import Container from "@/components/container";
 
 export default function HistoryView() {
   const t = useTranslations();
@@ -59,7 +60,7 @@ export default function HistoryView() {
   });
 
   return (
-    <div className="container mx-auto py-8">
+    <Container>
       <Card>
         <CardHeader>
           <CardTitle>{t("history.title")}</CardTitle>
@@ -98,6 +99,6 @@ export default function HistoryView() {
         loading={deleting}
         error={delError}
       />
-    </div>
+    </Container>
   );
 }
