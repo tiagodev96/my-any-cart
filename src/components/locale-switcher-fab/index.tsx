@@ -13,6 +13,7 @@ import {
   DropdownMenuItem,
   DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu";
+import { useTranslations } from "next-intl";
 
 const LABELS: Record<Locale, string> = {
   pt: "Português",
@@ -32,7 +33,7 @@ export function LocaleSwitcherFab() {
   const router = useRouter();
   const pathname = usePathname();
   const currentLocale = useLocale() as Locale;
-
+  const t = useTranslations();
   const handleChange = (l: Locale) => {
     if (l === currentLocale) return;
     router.replace(pathname, { locale: l });
@@ -50,7 +51,7 @@ export function LocaleSwitcherFab() {
               variant="outline"
               size="sm"
               className="h-10 px-3 rounded-full shadow-md"
-              aria-label="Change language"
+              aria-label={t("common.changeLanguage")}
             >
               <span className="text-sm font-medium">
                 {SHORT_LABELS[currentLocale]}
@@ -81,7 +82,7 @@ export function LocaleSwitcherFab() {
               <Button
                 variant="outline"
                 className="h-10 px-3 rounded-full shadow-md"
-                aria-label="Change language"
+                aria-label={t("common.changeLanguage")}
               >
                 <span className="text-sm font-medium">
                   {SHORT_LABELS[currentLocale]}

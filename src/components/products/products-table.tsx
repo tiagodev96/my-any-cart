@@ -113,7 +113,6 @@ export default function ProductsTable({
         </div>
       ) : (
         <>
-          {/* Lista compacta - Mobile */}
           <div className="block md:hidden p-3 pb-24">
             <ul className="space-y-3">
               {data.map((item) => {
@@ -169,7 +168,6 @@ export default function ProductsTable({
               })}
             </ul>
 
-            {/* Barra inferior fixa — mostra TOTAL (esq) e limpar (dir) */}
             <div
               className="
                 fixed inset-x-0 bottom-0 z-40 md:hidden
@@ -178,10 +176,9 @@ export default function ProductsTable({
                 [padding-bottom:calc(0.75rem+env(safe-area-inset-bottom))]
               "
               role="region"
-              aria-label="Cart total bar"
+              aria-label={t("aria.cartTotalBar")}
             >
               <div className="mx-auto flex max-w-screen-sm items-center justify-between gap-3">
-                {/* TOTAL à esquerda */}
                 <div className="min-w-0">
                   <div className="text-xs opacity-70">
                     {t("total")} ({currency})
@@ -191,7 +188,6 @@ export default function ProductsTable({
                   </div>
                 </div>
 
-                {/* Limpar carrinho (compacto) à direita */}
                 <div className="flex shrink-0 items-center gap-2">
                   <Button
                     variant="destructive"
@@ -209,7 +205,6 @@ export default function ProductsTable({
             </div>
           </div>
 
-          {/* Tabela — Desktop */}
           <div className="hidden md:block">
             <Table>
               <TableHeader>

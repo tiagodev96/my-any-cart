@@ -21,15 +21,7 @@ import { GoogleLoginButton } from "@/components/auth/GoogleLoginButton";
 import { loginUsernamePassword } from "@/services/auth";
 import { toast } from "sonner";
 import { useTranslations } from "next-intl";
-
-function getErrorMessage(err: unknown): string {
-  if (err instanceof Error) return err.message;
-  try {
-    return JSON.stringify(err);
-  } catch {
-    return "Erro desconhecido";
-  }
-}
+import { getErrorMessage } from "@/utils/get-error-message";
 
 export default function LoginView() {
   const { user, loginWithBackendTokens } = useAuth();
@@ -62,7 +54,7 @@ export default function LoginView() {
       router.replace(next);
       toast.success(t("auth.login.loginSuccess"));
     } catch (err: unknown) {
-      const msg = getErrorMessage(err);
+      const msg = getErrorMessage(err, t);
       toast.error(t("auth.errors.generic", { message: msg }));
     } finally {
       setBusy(false);
@@ -76,7 +68,7 @@ export default function LoginView() {
           <CardTitle>{t("auth.login.title")}</CardTitle>
           <CardDescription>{t("auth.login.description")}</CardDescription>
         </CardHeader>
-  
+
         <CardContent className="space-y-4">
           <form className="space-y-4" onSubmit={handleLogin}>
             <div className="space-y-2">
@@ -89,7 +81,7 @@ export default function LoginView() {
                 required
               />
             </div>
-  
+
             <div className="space-y-2">
               <Label htmlFor="password">{t("auth.login.password")}</Label>
               <Input
@@ -101,12 +93,12 @@ export default function LoginView() {
                 required
               />
             </div>
-  
+
             <Button type="submit" disabled={busy} className="w-full">
               {busy ? t("auth.login.entering") : t("auth.login.enter")}
             </Button>
           </form>
-  
+
           <div className="relative">
             <Separator className="my-6" />
             <div className="absolute inset-x-0 -top-3 flex justify-center">
@@ -115,10 +107,10 @@ export default function LoginView() {
               </span>
             </div>
           </div>
-  
+
           <GoogleLoginButton />
         </CardContent>
-  
+
         <CardFooter className="flex justify-between text-sm">
           <span className="opacity-80">{t("auth.login.noAccount")}</span>
           <Link
@@ -131,5 +123,4 @@ export default function LoginView() {
       </Card>
     </main>
   );
-  
 }

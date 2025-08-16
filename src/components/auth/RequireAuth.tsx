@@ -3,6 +3,7 @@
 import * as React from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import { usePathname, useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
 
 export default function RequireAuth({
   children,
@@ -12,6 +13,7 @@ export default function RequireAuth({
   const { user, loading } = useAuth();
   const router = useRouter();
   const pathname = usePathname();
+  const t = useTranslations();
 
   React.useEffect(() => {
     if (!loading && !user) {
@@ -22,7 +24,7 @@ export default function RequireAuth({
     }
   }, [loading, user, pathname, router]);
 
-  if (loading) return <div className="p-6">Carregando…</div>;
+  if (loading) return <div className="p-6">{t("common.loading")}</div>;
   if (!user) return null;
 
   return <>{children}</>;

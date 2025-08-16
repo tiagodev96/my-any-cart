@@ -4,14 +4,22 @@ import Script from "next/script";
 import "./globals.css";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { Toaster } from "@/components/ui/sonner";
+import { getTranslations } from "next-intl/server";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 
-export const metadata: Metadata = {
-  title: "My Any Cart",
-  description:
-    "A cart that can be used to calculate the total price of your items",
-};
+export async function generateMetadata({
+  params: { locale },
+}: {
+  params: { locale: string };
+}): Promise<Metadata> {
+  const t = await getTranslations({ locale, namespace: "app.meta" });
+
+  return {
+    title: t("title"),
+    description: t("description"),
+  };
+}
 
 const themeInitScript = `
 (function() {

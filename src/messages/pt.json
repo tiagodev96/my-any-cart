@@ -1,9 +1,22 @@
 {
+  "app": {
+    "meta": {
+      "title": "My Any Cart",
+      "description": "Um carrinho que pode ser usado para calcular o preço total dos seus itens"
+    }
+  },
   "common": {
     "loading": "Carregando…",
-    "cancel": "Cancelar"
+    "cancel": "Cancelar",
+    "changeLanguage": "Mudar idioma",
+    "guest": "Convidado",
+    "close": "Fechar",
+    "generic": "Erro desconhecido"
   },
   "products": {
+    "aria": {
+      "cartTotalBar": "Barra de total do carrinho"
+    },
     "creating": "Salvando...",
     "column": {
       "item": "Item",
@@ -92,7 +105,11 @@
       "fillUserPass": "Preencha usuário e senha.",
       "generic": "Erro ao fazer login: {message}",
       "loginSuccess": "Login realizado com sucesso!",
-      "passwordMismatch": "As senhas não coincidem."
+      "passwordMismatch": "As senhas não coincidem.",
+      "googleToken": "Falha ao obter id_token do Google",
+      "googleLogin": "Login com Google falhou",
+      "useAuthError": "useAuth deve ser usado dentro de <AuthProvider>",
+      "useCurrencyError": "useCurrency deve ser usado dentro de <CurrencyProvider>"
     }
   },
   "history": {

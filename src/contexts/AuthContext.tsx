@@ -4,6 +4,7 @@ import React from "react";
 import { authStore } from "@/lib/auth-store";
 import type { User, AuthTokens } from "@/types/auth";
 import { decodeJwt } from "@/lib/jwt";
+import { useTranslations } from "next-intl";
 
 type AuthContextValue = {
   user: User | null;
@@ -75,6 +76,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
 export function useAuth(): AuthContextValue {
   const ctx = React.useContext(AuthContext);
-  if (!ctx) throw new Error("useAuth must be used inside <AuthProvider>");
+  const t = useTranslations();
+  if (!ctx) throw new Error(t("auth.errors.useAuthError"));
   return ctx;
 }

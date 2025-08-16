@@ -47,10 +47,7 @@ export default function RegisterView() {
     e.preventDefault();
 
     if (!email || !password || !firstName || !lastName) {
-      toast.error(
-        t("auth.errors.fillAllRequired") ||
-          "Preencha todos os campos obrigatórios."
-      );
+      toast.error(t("auth.errors.fillAllRequired"));
       return;
     }
     if (password !== confirm) {
@@ -72,7 +69,7 @@ export default function RegisterView() {
       toast.success(t("auth.register.registerSuccess"));
       router.replace(next);
     } catch (err: unknown) {
-      const msg = getErrorMessage(err);
+      const msg = getErrorMessage(err, t);
       toast.error(t("auth.errors.generic", { message: msg }));
     } finally {
       setBusy(false);

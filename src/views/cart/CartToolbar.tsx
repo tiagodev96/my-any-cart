@@ -58,7 +58,7 @@ export default function CartToolbar({
           trigger={
             <button
               type="button"
-              aria-label="Adicionar produto"
+              aria-label={t("actions.addProduct")}
               className="h-10 w-10 rounded-full shadow-lg bg-primary text-primary-foreground flex items-center justify-center active:scale-95 transition"
             >
               <Plus className="h-5 w-5" />

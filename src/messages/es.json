@@ -1,14 +1,27 @@
 {
+  "app": {
+    "meta": {
+      "title": "My Any Cart",
+      "description": "Un carrito que se puede usar para calcular el precio total de tus artículos"
+    }
+  },
   "common": {
     "loading": "Cargando…",
-    "cancel": "Cancelar"
+    "cancel": "Cancelar",
+    "changeLanguage": "Cambiar idioma",
+    "guest": "Invitado",
+    "close": "Cerrar",
+    "generic": "Error desconocido"
   },
   "products": {
+    "aria": {
+      "cartTotalBar": "Barra del total del carrito"
+    },
     "creating": "Guardando...",
     "column": {
       "item": "Artículo",
       "quantity": "Cantidad",
-      "unitPrice": "Precio unitario",
+      "unitPrice": "Precio Unitario",
       "actions": "Acciones",
       "creating": "Guardando..."
     },
@@ -17,7 +30,7 @@
     "clearCart": "Vaciar carrito",
     "emptyCart": "Carrito vacío",
     "profile": "Perfil",
-    "logout": "Cerrar sesión",
+    "logout": "Salir",
     "actions": {
       "edit": "Editar",
       "delete": "Eliminar",
@@ -31,13 +44,13 @@
       "removeItemDescription": "¿Está seguro de que desea eliminar <b>{item}</b> del carrito? Esta acción no se puede deshacer."
     },
     "emptyState": {
-      "text": "Agregue un producto para comenzar la lista"
+      "text": "Agrega un producto para comenzar la lista"
     },
     "searchPlaceholder": "Buscar artículos...",
     "total": "Total",
     "saveDialog": {
       "title": "Guardar compra",
-      "desc": "Guarde la compra para verla más tarde.",
+      "desc": "Guarda la compra para verla más tarde.",
       "cartName": "Nombre del carrito",
       "currency": "Moneda",
       "notes": "Notas",
@@ -45,8 +58,8 @@
       "summary": "Resumen de la compra",
       "products": "Productos",
       "currencyLabel": "Moneda",
-      "idempotencyKey": "ID de idempotencia",
-      "idempotencyKeyDescription": "Generado automáticamente",
+      "idempotencyKey": "Clave de idempotencia",
+      "idempotencyKeyDescription": "Generada automáticamente",
       "store": "Tienda",
       "storeName": "Nombre de la tienda"
     }
@@ -70,7 +83,7 @@
       "passwordPlaceholder": "Ingrese su contraseña",
       "confirmPlaceholder": "Confirme su contraseña",
       "or": "o",
-      "haveAccount": "¿Ya tiene cuenta?",
+      "haveAccount": "¿Ya tienes cuenta?",
       "goToLogin": "Ir a iniciar sesión",
       "confirm": "Confirme su contraseña",
       "cta": "Crear cuenta",
@@ -78,21 +91,25 @@
     },
     "login": {
       "title": "Iniciar sesión",
-      "description": "Acceda a su cuenta para continuar.",
+      "description": "Accede a tu cuenta para continuar.",
       "username": "Usuario",
       "password": "Contraseña",
-      "enter": "Iniciar sesión",
+      "enter": "Entrar",
       "createAccount": "Crear cuenta",
       "or": "o",
-      "noAccount": "¿Aún no tiene cuenta?",
-      "entering": "Iniciando sesión…",
+      "noAccount": "¿Aún no tienes cuenta?",
+      "entering": "Ingresando…",
       "loginSuccess": "¡Inicio de sesión exitoso!"
     },
     "errors": {
-      "fillUserPass": "Complete el usuario y la contraseña.",
+      "fillUserPass": "Complete usuario y contraseña.",
       "generic": "Error al iniciar sesión: {message}",
       "loginSuccess": "¡Inicio de sesión exitoso!",
-      "passwordMismatch": "Las contraseñas no coinciden."
+      "passwordMismatch": "Las contraseñas no coinciden.",
+      "googleToken": "Error al obtener id_token de Google",
+      "googleLogin": "Error en el inicio de sesión con Google",
+      "useAuthError": "useAuth debe usarse dentro de <AuthProvider>",
+      "useCurrencyError": "useCurrency debe usarse dentro de <CurrencyProvider>"
     }
   },
   "history": {
@@ -101,8 +118,8 @@
       "desc": "¿Está seguro de que desea eliminar esta compra? Esta acción no se puede deshacer.",
       "confirm": "Eliminar"
     },
-    "title": "Historial de compras",
-    "subtitle": "Vea sus compras anteriores y sus detalles.",
+    "title": "Historial de Compras",
+    "subtitle": "Mira tus compras anteriores y sus detalles.",
     "search": {
       "label": "Buscar",
       "placeholder": "Filtrar por tienda, fecha o ID…"
@@ -124,7 +141,7 @@
     },
     "empty": "No se encontraron compras.",
     "detail": {
-      "title": "Detalles de la compra",
+      "title": "Detalles de la Compra",
       "none": "Seleccione una compra.",
       "date": { "label": "Fecha" },
       "store": { "label": "Tienda" },
@@ -135,7 +152,7 @@
         "unit": "Precio",
         "subtotal": "Subtotal"
       },
-      "empty": "No hay artículos en esta compra."
+      "empty": "Sin artículos en esta compra."
     }
   }
 }

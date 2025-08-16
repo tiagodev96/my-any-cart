@@ -87,7 +87,7 @@ export default function NavbarContainer() {
       } catch (err) {
         if (alive) {
           setMe(null);
-          const msg = getErrorMessage(err);
+          const msg = getErrorMessage(err, t);
           toast.error(t("auth.errors.generic", { message: msg }));
         }
       } finally {

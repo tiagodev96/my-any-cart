@@ -40,12 +40,15 @@ function getInitials(firstName?: string, lastName?: string) {
   return res || "??";
 }
 
-function buildFullName(u?: User | null) {
-  if (!u) return "Convidado";
+function buildFullName(
+  t: ReturnType<typeof useTranslations>,
+  u?: User | null
+): string {
+  if (!u) return t("common.guest");
   const full =
     [u.firstName, u.lastName].filter(Boolean).join(" ").trim() ||
     (u.email ? u.email.split("@")[0] : "") ||
-    "Convidado";
+    t("common.guest");
   return full;
 }
 
@@ -58,7 +61,7 @@ export default function Navbar({ user, loadingUser, onLogout }: NavbarProps) {
   );
 
   const initials = getInitials(user?.firstName, user?.lastName);
-  const fullName = buildFullName(user);
+  const fullName = buildFullName(t, user);
 
   const NavLink = ({
     href,
@@ -99,7 +102,6 @@ export default function Navbar({ user, loadingUser, onLogout }: NavbarProps) {
           </div>
 
           <div className="flex items-center gap-3">
-            {/* estado de loading do /me */}
             {loadingUser ? (
               <div className="flex items-center gap-3">
                 <div className="h-8 w-8 animate-pulse rounded-full bg-muted" />
@@ -150,10 +152,9 @@ export default function Navbar({ user, loadingUser, onLogout }: NavbarProps) {
                 </DropdownMenuContent>
               </DropdownMenu>
             ) : (
-              // sem usuário: botão de entrar
               <Link href={`/${locale}/login`}>
                 <Button variant="default" size="sm">
-                  {t("login") ?? "Entrar"}
+                  {t("login")}
                 </Button>
               </Link>
             )}

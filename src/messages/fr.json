@@ -1,14 +1,27 @@
 {
+  "app": {
+    "meta": {
+      "title": "My Any Cart",
+      "description": "Un panier qui peut être utilisé pour calculer le prix total de vos articles"
+    }
+  },
   "common": {
     "loading": "Chargement…",
-    "cancel": "Annuler"
+    "cancel": "Annuler",
+    "changeLanguage": "Changer de langue",
+    "guest": "Invité",
+    "close": "Fermer",
+    "generic": "Erreur inconnue"
   },
   "products": {
+    "aria": {
+      "cartTotalBar": "Barre du total du panier"
+    },
     "creating": "Enregistrement...",
     "column": {
       "item": "Article",
       "quantity": "Quantité",
-      "unitPrice": "Prix unitaire",
+      "unitPrice": "Prix Unitaire",
       "actions": "Actions",
       "creating": "Enregistrement..."
     },
@@ -27,7 +40,7 @@
       "dialog-title": "Confirmation",
       "dialog-description": "Êtes-vous sûr de vouloir continuer ?",
       "confirm": "Confirmer",
-      "removeItem": "Supprimer l'article ?",
+      "removeItem": "Supprimer l’article ?",
       "removeItemDescription": "Êtes-vous sûr de vouloir supprimer <b>{item}</b> du panier ? Cette action est irréversible."
     },
     "emptyState": {
@@ -36,17 +49,17 @@
     "searchPlaceholder": "Rechercher des articles...",
     "total": "Total",
     "saveDialog": {
-      "title": "Enregistrer l'achat",
-      "desc": "Enregistrez l'achat pour le consulter plus tard.",
+      "title": "Enregistrer l’achat",
+      "desc": "Enregistrez l’achat pour le consulter plus tard.",
       "cartName": "Nom du panier",
       "currency": "Devise",
       "notes": "Notes",
-      "tags": "Tags",
-      "summary": "Résumé de l'achat",
+      "tags": "Étiquettes",
+      "summary": "Résumé de l’achat",
       "products": "Produits",
       "currencyLabel": "Devise",
-      "idempotencyKey": "Clé d'idempotence",
-      "idempotencyKeyDescription": "Généré automatiquement",
+      "idempotencyKey": "Clé d’idempotence",
+      "idempotencyKeyDescription": "Générée automatiquement",
       "store": "Magasin",
       "storeName": "Nom du magasin"
     }
@@ -60,13 +73,13 @@
       "confirmPassword": "Confirmez votre mot de passe",
       "title": "Créer un compte",
       "description": "Créez votre compte pour continuer.",
-      "username": "Nom d'utilisateur",
+      "username": "Nom d’utilisateur",
       "password": "Mot de passe",
       "enter": "Créer un compte",
       "registerSuccess": "Compte créé avec succès !",
       "name": "Nom",
       "namePlaceholder": "Entrez votre nom",
-      "usernamePlaceholder": "Entrez votre nom d'utilisateur",
+      "usernamePlaceholder": "Entrez votre nom d’utilisateur",
       "passwordPlaceholder": "Entrez votre mot de passe",
       "confirmPlaceholder": "Confirmez votre mot de passe",
       "or": "ou",
@@ -78,30 +91,34 @@
     },
     "login": {
       "title": "Connexion",
-      "description": "Connectez-vous pour continuer.",
-      "username": "Nom d'utilisateur",
+      "description": "Accédez à votre compte pour continuer.",
+      "username": "Nom d’utilisateur",
       "password": "Mot de passe",
-      "enter": "Se connecter",
+      "enter": "Connexion",
       "createAccount": "Créer un compte",
       "or": "ou",
-      "noAccount": "Vous n'avez pas encore de compte ?",
+      "noAccount": "Vous n’avez pas encore de compte ?",
       "entering": "Connexion…",
       "loginSuccess": "Connexion réussie !"
     },
     "errors": {
-      "fillUserPass": "Remplissez le nom d'utilisateur et le mot de passe.",
+      "fillUserPass": "Veuillez remplir le nom d’utilisateur et le mot de passe.",
       "generic": "Erreur lors de la connexion : {message}",
       "loginSuccess": "Connexion réussie !",
-      "passwordMismatch": "Les mots de passe ne correspondent pas."
+      "passwordMismatch": "Les mots de passe ne correspondent pas.",
+      "googleToken": "Échec de l’obtention de l’id_token de Google",
+      "googleLogin": "Échec de la connexion Google",
+      "useAuthError": "useAuth doit être utilisé dans <AuthProvider>",
+      "useCurrencyError": "useCurrency doit être utilisé dans <CurrencyProvider>"
     }
   },
   "history": {
     "delete": {
-      "title": "Supprimer l'achat",
+      "title": "Supprimer l’achat",
       "desc": "Êtes-vous sûr de vouloir supprimer cet achat ? Cette action est irréversible.",
       "confirm": "Supprimer"
     },
-    "title": "Historique des achats",
+    "title": "Historique des Achats",
     "subtitle": "Consultez vos achats précédents et leurs détails.",
     "search": {
       "label": "Rechercher",
@@ -124,7 +141,7 @@
     },
     "empty": "Aucun achat trouvé.",
     "detail": {
-      "title": "Détails de l'achat",
+      "title": "Détails de l’Achat",
       "none": "Sélectionnez un achat.",
       "date": { "label": "Date" },
       "store": { "label": "Magasin" },

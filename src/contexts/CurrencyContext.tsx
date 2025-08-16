@@ -1,7 +1,12 @@
 "use client";
 
 import React from "react";
-import { formatMoney, getCurrencySymbol, POPULAR_CURRENCIES } from "@/lib/currency";
+import {
+  formatMoney,
+  getCurrencySymbol,
+  POPULAR_CURRENCIES,
+} from "@/lib/currency";
+import { useTranslations } from "next-intl";
 
 const STORAGE_KEY = "my-any-cart:currency";
 
@@ -42,11 +47,16 @@ export function CurrencyProvider({ children }: { children: React.ReactNode }) {
     };
   }, [currency, setCurrency]);
 
-  return <CurrencyContext.Provider value={value}>{children}</CurrencyContext.Provider>;
+  return (
+    <CurrencyContext.Provider value={value}>
+      {children}
+    </CurrencyContext.Provider>
+  );
 }
 
 export function useCurrency() {
   const ctx = React.useContext(CurrencyContext);
-  if (!ctx) throw new Error("useCurrency must be used within CurrencyProvider");
+  const t = useTranslations();
+  if (!ctx) throw new Error(t("products.errors.useCurrencyError"));
   return ctx;
 }
