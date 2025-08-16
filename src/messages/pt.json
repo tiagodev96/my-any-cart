@@ -47,7 +47,8 @@
       "currencyLabel": "Moeda",
       "idempotencyKey": "ID de idempotência",
       "idempotencyKeyDescription": "Gerado automaticamente",
-      "store": "Loja"
+      "store": "Loja",
+      "storeName": "Nome da loja"
     }
   },
   "auth": {

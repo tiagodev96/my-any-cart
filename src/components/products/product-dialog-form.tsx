@@ -1,3 +1,4 @@
+// components/products/product-dialog-form.tsx
 "use client";
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
@@ -6,6 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Plus } from "lucide-react";
 import { CommonStrings, ProductRow } from "./types";
+import { useCurrency } from "@/contexts/CurrencyContext";
 
 function normalizeIntInput(raw: string): string {
   let v = raw.replace(/\D+/g, "");
@@ -15,16 +17,12 @@ function normalizeIntInput(raw: string): string {
 
 function normalizeDecimalInput(raw: string): string {
   let v = raw.replace(/,/g, ".").replace(/[^\d.]/g, "");
-
   const i = v.indexOf(".");
   if (i !== -1) v = v.slice(0, i + 1) + v.slice(i + 1).replace(/\./g, "");
-
   if (v.startsWith(".")) v = "0" + v;
-
   if (v.length > 1 && v[0] === "0" && v[1] !== ".") {
     v = v.replace(/^0+(?=\d)/, "");
   }
-
   return v;
 }
 
@@ -43,6 +41,7 @@ export function ProductDialogForm({
   onCancel: () => void;
   strings: CommonStrings;
 }) {
+  const { currency } = useCurrency();
   const [amountStr, setAmountStr] = useState<string>(
     form.item_amount ? String(form.item_amount) : "1"
   );
@@ -78,7 +77,7 @@ export function ProductDialogForm({
         />
       </div>
 
-      <div className="grid grid-cols-2 gap-3">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
         <div className="space-y-2">
           <Label htmlFor="item_amount">{strings.quantity}</Label>
           <Input
@@ -100,7 +99,9 @@ export function ProductDialogForm({
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="item_price">{strings.unitPrice} (EUR)</Label>
+          <Label htmlFor="item_price">
+            {strings.unitPrice} ({currency})
+          </Label>
           <Input
             id="item_price"
             type="text"

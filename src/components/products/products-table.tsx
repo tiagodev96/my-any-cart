@@ -1,20 +1,12 @@
 "use client";
 
-import React, { useMemo } from "react";
+import * as React from "react";
 import {
-  getCoreRowModel,
-  getFilteredRowModel,
-  getSortedRowModel,
-  SortingState,
-  useReactTable,
-  ColumnFiltersState,
-  VisibilityState,
-  flexRender,
   ColumnDef,
+  flexRender,
+  getCoreRowModel,
+  useReactTable,
 } from "@tanstack/react-table";
-import { Plus } from "lucide-react";
-
-import { Button } from "@/components/ui/button";
 import {
   Table,
   TableBody,
@@ -23,330 +15,253 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import {
-  Dialog,
-  DialogTrigger,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
+import type { ProductRow } from "./types";
 import { useTranslations } from "next-intl";
+import { Button } from "@/components/ui/button";
+import { useCurrency } from "@/contexts/CurrencyContext";
+import { Trash2, PencilLine } from "lucide-react";
 
-import { eur } from "./currency";
-import { productsColumns } from "./columns";
-import { ProductDialogForm } from "./product-dialog-form";
-import { ProductsToolbar } from "./products-toolbar";
-import { ProductActionsCell } from "./product-actions-cell";
-import type { ProductRow, CommonStrings } from "./types";
-
-export type ProductsTableProps = {
-  data?: ProductRow[] | null;
-  onAdd?: (row: ProductRow) => void;
-  onEdit?: (row: ProductRow) => void;
-  onDelete?: (row: ProductRow) => void;
-  currencyLocale?: string;
+type Props = {
+  data: ProductRow[];
+  onAdd: (row: ProductRow) => void;
+  onEdit: (row: ProductRow) => void;
+  onDelete: (row: ProductRow) => void;
+  onClear: () => void;
+  itemsCount: number;
 };
 
 export default function ProductsTable({
   data,
-  onAdd,
   onEdit,
   onDelete,
-  currencyLocale = "pt-PT",
-}: ProductsTableProps) {
+  onClear,
+}: Props) {
   const t = useTranslations("products");
+  const { currency, format } = useCurrency();
 
-  const strings: CommonStrings = useMemo(() => ({
-    item: t("column.item"),
-    quantity: t("column.quantity"),
-    unitPrice: t("column.unitPrice"),
-    actions: t("column.actions"),
-    edit: t("actions.edit"),
-    delete: t("actions.delete"),
-    addProduct: t("actions.addProduct"),
-    cancel: t("actions.cancel"),
-    save: t("actions.save"),
-    total: t("total"),
-    emptyText: t("emptyState.text"),
-    searchPlaceholder: t("searchPlaceholder"),
-  }), [t]);
+  const cartTotal = React.useMemo(() => {
+    if (!Array.isArray(data)) return 0;
+    return data.reduce((sum, item) => {
+      const qty = Number(item.item_amount ?? 0);
+      const unit = Number(item.item_price ?? 0);
+      return sum + qty * unit;
+    }, 0);
+  }, [data]);
 
-  const safeData = React.useMemo<ProductRow[]>(
-    () => (Array.isArray(data) ? data : []),
-    [data]
-  );
-
-  // table state
-  const [sorting, setSorting] = React.useState<SortingState>([]);
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
-    []
-  );
-  const [columnVisibility, setColumnVisibility] =
-    React.useState<VisibilityState>({});
-
-  // dialog/form state
-  const [open, setOpen] = React.useState(false);
-  const [editing, setEditing] = React.useState<ProductRow | null>(null);
-  const [form, setForm] = React.useState({
-    item_name: "",
-    item_amount: 1,
-    item_price: 0,
-  });
-
-  const resetForm = React.useCallback(
-    () => setForm({ item_name: "", item_amount: 1, item_price: 0 }),
-    []
-  );
-
-  const handleStartAdd = React.useCallback(() => {
-    setEditing(null);
-    resetForm();
-    setOpen(true);
-  }, [resetForm]);
-
-  const handleStartEdit = React.useCallback((row: ProductRow) => {
-    setEditing(row);
-    setForm({
-      item_name: row.item_name,
-      item_amount: row.item_amount,
-      item_price: row.item_price,
-    });
-    setOpen(true);
-  }, []);
-
-  const handleDelete = React.useCallback(
-    (row: ProductRow) => {
-      onDelete?.(row);
-    },
-    [onDelete]
-  );
-
-  const handleSubmit = React.useCallback(
-    (e: React.FormEvent) => {
-      e.preventDefault();
-      if (!form.item_name.trim()) return;
-
-      if (editing) {
-        const updated: ProductRow = {
-          ...editing,
-          item_name: form.item_name.trim(),
-          item_amount: Number(form.item_amount) || 0,
-          item_price: Number(form.item_price) || 0,
-        };
-        onEdit?.(updated);
-      } else {
-        const newRow: ProductRow = {
-          id:
-            typeof crypto !== "undefined" && "randomUUID" in crypto
-              ? crypto.randomUUID()
-              : String(Date.now()),
-          item_name: form.item_name.trim(),
-          item_amount: Number(form.item_amount) || 0,
-          item_price: Number(form.item_price) || 0,
-        };
-        onAdd?.(newRow);
-      }
-
-      setOpen(false);
-      setEditing(null);
-      resetForm();
-    },
-    [
-      editing,
-      form.item_amount,
-      form.item_name,
-      form.item_price,
-      onAdd,
-      onEdit,
-      resetForm,
-    ]
-  );
-
-  // columns
-  const columns = React.useMemo<ColumnDef<ProductRow>[]>(
-    () =>
-      productsColumns({
-        onEdit: handleStartEdit,
-        onDelete: handleDelete,
-        currencyLocale,
-        strings,
-      }),
-    [handleStartEdit, handleDelete, currencyLocale, strings]
-  );
-
-  // table instance
-  const table = useReactTable({
-    data: safeData,
-    columns,
-    state: { sorting, columnFilters, columnVisibility },
-    onSortingChange: setSorting,
-    onColumnFiltersChange: setColumnFilters,
-    onColumnVisibilityChange: setColumnVisibility,
-    getCoreRowModel: getCoreRowModel(),
-    getSortedRowModel: getSortedRowModel(),
-    getFilteredRowModel: getFilteredRowModel(),
-  });
-
-  const grandTotal = React.useMemo(
-    () => safeData.reduce((sum, r) => sum + r.item_amount * r.item_price, 0),
-    [safeData]
-  );
-
-  const dialogTitle = editing ? strings.edit : strings.addProduct;
-  const dialogForm = (
-    <ProductDialogForm
-      editing={editing}
-      form={form}
-      setForm={setForm}
-      onSubmit={handleSubmit}
-      onCancel={() => {
-        setEditing(null);
-        setOpen(false);
-      }}
-      strings={strings}
-    />
-  );
-
-  // Empty state
-  if (safeData.length === 0) {
-    return (
-      <div className="w-full rounded-md border p-6 text-center text-sm text-muted-foreground md:p-10">
-        <div className="mb-3">{strings.emptyText}</div>
-        <Dialog open={open} onOpenChange={setOpen}>
-          <DialogTrigger asChild>
-            <Button size="sm" className="gap-1" onClick={handleStartAdd}>
-              <Plus className="h-4 w-4" />
-              {strings.addProduct}
+  const columns = React.useMemo<ColumnDef<ProductRow>[]>(() => {
+    return [
+      { accessorKey: "item_name", header: t("column.item") },
+      {
+        accessorKey: "item_amount",
+        header: t("column.quantity"),
+        cell: ({ getValue }) => <span>{getValue<number>()}</span>,
+      },
+      {
+        accessorKey: "item_price",
+        header: `${t("column.unitPrice")} (${currency})`,
+        cell: ({ getValue }) => (
+          <span>{format(Number(getValue<number>()))}</span>
+        ),
+      },
+      {
+        id: "total",
+        header: `${t("total")} (${currency})`,
+        cell: ({ row }) => {
+          const qty = Number(row.original.item_amount ?? 0);
+          const unit = Number(row.original.item_price ?? 0);
+          return <span>{format(qty * unit)}</span>;
+        },
+      },
+      {
+        id: "actions",
+        header: t("column.actions"),
+        cell: ({ row }) => (
+          <div className="flex justify-end gap-2">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => onEdit(row.original)}
+            >
+              {t("actions.edit")}
             </Button>
-          </DialogTrigger>
-          <DialogContent>
-            <DialogHeader>
-              <DialogTitle>{dialogTitle}</DialogTitle>
-            </DialogHeader>
-            {dialogForm}
-          </DialogContent>
-        </Dialog>
-      </div>
-    );
-  }
+            <Button
+              variant="destructive"
+              size="sm"
+              onClick={() => onDelete(row.original)}
+            >
+              {t("actions.delete")}
+            </Button>
+          </div>
+        ),
+      },
+    ];
+  }, [currency, format, t, onEdit, onDelete]);
+
+  const table = useReactTable({
+    data,
+    columns,
+    getCoreRowModel: getCoreRowModel(),
+  });
+
+  const isEmpty = !data || data.length === 0;
 
   return (
-    <div className="w-full">
-      {/* Toolbar */}
-      <ProductsToolbar
-        table={table}
-        open={open}
-        setOpen={setOpen}
-        onStartAdd={handleStartAdd}
-        dialogTitle={dialogTitle}
-        dialogForm={dialogForm}
-        strings={strings}
-      />
+    <div className="rounded-md border">
+      {isEmpty ? (
+        <div className="p-8 text-center">
+          <p className="mb-4 text-sm opacity-80">{t("emptyState.text")}</p>
+        </div>
+      ) : (
+        <>
+          {/* Lista compacta - Mobile */}
+          <div className="block md:hidden p-3 pb-24">
+            <ul className="space-y-3">
+              {data.map((item) => {
+                const qty = Number(item.item_amount ?? 0);
+                const unit = Number(item.item_price ?? 0);
+                const subtotal = qty * unit;
+                return (
+                  <li
+                    key={item.id}
+                    className="w-full rounded-lg border p-3 shadow-sm bg-background"
+                  >
+                    <p className="w-full truncate font-medium">
+                      {item.item_name}
+                    </p>
 
-      {/* Mobile cards */}
-      <div className="grid gap-3 md:hidden">
-        {table.getRowModel().rows.map((row) => {
-          const r = row.original;
-          const total = r.item_amount * r.item_price;
-          return (
-            <div key={row.id} className="rounded-lg border p-4 shadow-sm">
-              <div className="mb-2 flex items-start justify-between gap-3">
+                    <div className="mt-1 grid grid-cols-2 gap-x-4 gap-y-1 text-sm">
+                      <span className="opacity-70">
+                        {t("column.quantity")}:
+                      </span>
+                      <span>{qty}</span>
+
+                      <span className="opacity-70">
+                        {t("column.unitPrice")} ({currency}):
+                      </span>
+                      <span>{format(unit)}</span>
+
+                      <span className="opacity-70">
+                        {t("total")} ({currency}):
+                      </span>
+                      <span className="font-medium">{format(subtotal)}</span>
+                    </div>
+
+                    <div className="mt-3 flex w-full justify-end gap-2">
+                      <Button
+                        variant="outline"
+                        size="icon"
+                        aria-label={t("actions.edit")}
+                        onClick={() => onEdit(item)}
+                      >
+                        <PencilLine className="h-4 w-4" />
+                      </Button>
+                      <Button
+                        variant="destructive"
+                        size="icon"
+                        aria-label={t("actions.delete")}
+                        onClick={() => onDelete(item)}
+                      >
+                        <Trash2 className="h-4 w-4" />
+                      </Button>
+                    </div>
+                  </li>
+                );
+              })}
+            </ul>
+
+            {/* Barra inferior fixa — mostra TOTAL (esq) e limpar (dir) */}
+            <div
+              className="
+                fixed inset-x-0 bottom-0 z-40 md:hidden
+                border-t bg-background/90 backdrop-blur supports-[backdrop-filter]:bg-background/60
+                py-3 px-4
+                [padding-bottom:calc(0.75rem+env(safe-area-inset-bottom))]
+              "
+              role="region"
+              aria-label="Cart total bar"
+            >
+              <div className="mx-auto flex max-w-screen-sm items-center justify-between gap-3">
+                {/* TOTAL à esquerda */}
                 <div className="min-w-0">
-                  <div className="truncate text-base font-semibold">
-                    {r.item_name}
+                  <div className="text-xs opacity-70">
+                    {t("total")} ({currency})
                   </div>
-                  <div className="mt-1 text-xs text-muted-foreground">
-                    {strings.quantity}:{" "}
-                    <span className="tabular-nums">{r.item_amount}</span> •{" "}
-                    {strings.unitPrice}:{" "}
-                    <span className="tabular-nums">
-                      {eur(r.item_price, currencyLocale)}
-                    </span>
+                  <div className="text-base font-semibold truncate">
+                    {format(cartTotal)}
                   </div>
                 </div>
-                <div className="shrink-0 text-right text-sm font-medium">
-                  {eur(total, currencyLocale)}
+
+                {/* Limpar carrinho (compacto) à direita */}
+                <div className="flex shrink-0 items-center gap-2">
+                  <Button
+                    variant="destructive"
+                    size="sm"
+                    onClick={onClear}
+                    className="whitespace-nowrap"
+                    aria-label={t("clearCart")}
+                    title={t("clearCart")}
+                  >
+                    <Trash2 className="mr-2 h-4 w-4" />
+                    {t("clearCart")}
+                  </Button>
                 </div>
-              </div>
-              <div className="mt-3 flex items-center justify-end gap-2">
-                <ProductActionsCell
-                  row={r}
-                  onEdit={handleStartEdit}
-                  onDelete={handleDelete}
-                  strings={strings}
-                />
               </div>
             </div>
-          );
-        })}
-        <div className="rounded-lg border p-4">
-          <div className="flex items-center justify-between text-sm font-medium">
-            <span>{strings.total}</span>
-            <span className="tabular-nums">
-              {eur(grandTotal, currencyLocale)}
-            </span>
           </div>
-        </div>
-      </div>
 
-      {/* Desktop table */}
-      <div className="hidden md:block">
-        <div className="overflow-hidden rounded-md border">
-          <Table>
-            <TableHeader>
-              {table.getHeaderGroups().map((headerGroup) => (
-                <TableRow key={headerGroup.id}>
-                  {headerGroup.headers.map((header) => (
-                    <TableHead key={header.id}>
-                      {header.isPlaceholder
-                        ? null
-                        : flexRender(
-                            header.column.columnDef.header,
-                            header.getContext()
-                          )}
-                    </TableHead>
-                  ))}
-                </TableRow>
-              ))}
-            </TableHeader>
-            <TableBody>
-              {table.getRowModel().rows.length ? (
-                <>
-                  {table.getRowModel().rows.map((row) => (
-                    <TableRow key={row.id}>
-                      {row.getVisibleCells().map((cell) => (
-                        <TableCell key={cell.id}>
-                          {flexRender(
-                            cell.column.columnDef.cell,
-                            cell.getContext()
-                          )}
-                        </TableCell>
-                      ))}
-                    </TableRow>
-                  ))}
-                  <TableRow>
-                    <TableCell colSpan={3} className="text-right font-medium">
-                      {strings.total}
-                    </TableCell>
-                    <TableCell className="text-right font-semibold">
-                      {eur(grandTotal, currencyLocale)}
-                    </TableCell>
+          {/* Tabela — Desktop */}
+          <div className="hidden md:block">
+            <Table>
+              <TableHeader>
+                {table.getHeaderGroups().map((hg) => (
+                  <TableRow key={hg.id}>
+                    {hg.headers.map((h) => (
+                      <TableHead
+                        key={h.id}
+                        className={
+                          h.column.id === "actions" ? "text-right" : ""
+                        }
+                      >
+                        {h.isPlaceholder
+                          ? null
+                          : flexRender(
+                              h.column.columnDef.header,
+                              h.getContext()
+                            )}
+                      </TableHead>
+                    ))}
                   </TableRow>
-                </>
-              ) : (
+                ))}
+              </TableHeader>
+              <TableBody>
+                {table.getRowModel().rows.map((r) => (
+                  <TableRow key={r.id}>
+                    {r.getVisibleCells().map((c) => (
+                      <TableCell
+                        key={c.id}
+                        className={
+                          c.column.id === "actions" ? "text-right" : ""
+                        }
+                      >
+                        {flexRender(c.column.columnDef.cell, c.getContext())}
+                      </TableCell>
+                    ))}
+                  </TableRow>
+                ))}
                 <TableRow>
-                  <TableCell
-                    colSpan={table.getAllColumns().length}
-                    className="h-24 text-center"
-                  >
-                    {strings.emptyText}
+                  <TableCell colSpan={3} className="text-right font-medium">
+                    {t("total")} ({currency})
                   </TableCell>
+                  <TableCell className="font-semibold">
+                    {format(cartTotal)}
+                  </TableCell>
+                  <TableCell />
                 </TableRow>
-              )}
-            </TableBody>
-          </Table>
-        </div>
-      </div>
+              </TableBody>
+            </Table>
+          </div>
+        </>
+      )}
     </div>
   );
 }

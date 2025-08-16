@@ -4,20 +4,20 @@
     "cancel": "Cancel"
   },
   "products": {
-    "creating": "Creating...",
+    "creating": "Saving...",
     "column": {
       "item": "Item",
       "quantity": "Quantity",
       "unitPrice": "Unit Price",
       "actions": "Actions",
-      "creating": "Creating..."
+      "creating": "Saving..."
     },
     "cart": "Cart",
     "history": "History",
     "clearCart": "Clear cart",
     "emptyCart": "Empty cart",
     "profile": "Profile",
-    "logout": "Log out",
+    "logout": "Logout",
     "actions": {
       "edit": "Edit",
       "delete": "Delete",
@@ -37,24 +37,25 @@
     "total": "Total",
     "saveDialog": {
       "title": "Save purchase",
-      "desc": "Save the purchase to be able to view it later.",
+      "desc": "Save the purchase to view it later.",
       "cartName": "Cart name",
       "currency": "Currency",
       "notes": "Notes",
       "tags": "Tags",
-      "summary": "Summary",
+      "summary": "Purchase summary",
       "products": "Products",
       "currencyLabel": "Currency",
-      "idempotencyKey": "Idempotency key",
-      "idempotencyKeyDescription": "Generated automatically",
-      "store": "Store"
+      "idempotencyKey": "Idempotency ID",
+      "idempotencyKeyDescription": "Automatically generated",
+      "store": "Store",
+      "storeName": "Store name"
     }
   },
   "auth": {
     "orContinueWith": "or continue with",
     "register": {
-      "firstName": "First name",
-      "lastName": "Last name",
+      "firstName": "First Name",
+      "lastName": "Last Name",
       "email": "Email",
       "confirmPassword": "Confirm your password",
       "title": "Create account",
@@ -62,7 +63,7 @@
       "username": "Username",
       "password": "Password",
       "enter": "Create account",
-      "registerSuccess": "Account created successfully!",
+      "registerSuccess": "Account successfully created!",
       "name": "Name",
       "namePlaceholder": "Enter your name",
       "usernamePlaceholder": "Enter your username",
@@ -76,19 +77,19 @@
       "creating": "Creating account…"
     },
     "login": {
-      "title": "Sign in",
+      "title": "Login",
       "description": "Access your account to continue.",
       "username": "Username",
       "password": "Password",
-      "enter": "Sign in",
+      "enter": "Login",
       "createAccount": "Create account",
       "or": "or",
       "noAccount": "Don't have an account yet?",
-      "entering": "Signing in…",
+      "entering": "Logging in…",
       "loginSuccess": "Login successful!"
     },
     "errors": {
-      "fillUserPass": "Enter username and password.",
+      "fillUserPass": "Fill in username and password.",
       "generic": "Login error: {message}",
       "loginSuccess": "Login successful!",
       "passwordMismatch": "Passwords do not match."
@@ -101,7 +102,7 @@
       "confirm": "Delete"
     },
     "title": "Purchase History",
-    "subtitle": "See your previous purchases and each one's details.",
+    "subtitle": "View your previous purchases and their details.",
     "search": {
       "label": "Search",
       "placeholder": "Filter by store, date or ID…"

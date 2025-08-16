@@ -21,75 +21,76 @@
     "actions": {
       "edit": "Editar",
       "delete": "Eliminar",
-      "addProduct": "Añadir producto",
+      "addProduct": "Agregar producto",
       "save": "Guardar",
       "cancel": "Cancelar",
       "dialog-title": "Confirmación",
-      "dialog-description": "¿Seguro que deseas continuar?",
+      "dialog-description": "¿Está seguro de que desea continuar?",
       "confirm": "Confirmar",
       "removeItem": "¿Eliminar artículo?",
-      "removeItemDescription": "¿Seguro que deseas eliminar <b>{item}</b> del carrito? Esta acción no se puede deshacer."
+      "removeItemDescription": "¿Está seguro de que desea eliminar <b>{item}</b> del carrito? Esta acción no se puede deshacer."
     },
     "emptyState": {
-      "text": "Añade un producto para empezar la lista"
+      "text": "Agregue un producto para comenzar la lista"
     },
     "searchPlaceholder": "Buscar artículos...",
     "total": "Total",
     "saveDialog": {
       "title": "Guardar compra",
-      "desc": "Guarda la compra para poder visualizarla más tarde.",
-      "cartName": "Nombre de la compra",
+      "desc": "Guarde la compra para verla más tarde.",
+      "cartName": "Nombre del carrito",
       "currency": "Moneda",
       "notes": "Notas",
-      "tags": "Tags",
+      "tags": "Etiquetas",
       "summary": "Resumen de la compra",
       "products": "Productos",
       "currencyLabel": "Moneda",
       "idempotencyKey": "ID de idempotencia",
       "idempotencyKeyDescription": "Generado automáticamente",
-      "store": "Tienda"
+      "store": "Tienda",
+      "storeName": "Nombre de la tienda"
     }
   },
   "auth": {
-    "orContinueWith": "o continúa con",
+    "orContinueWith": "o continuar con",
     "register": {
       "firstName": "Nombre",
       "lastName": "Apellido",
       "email": "Correo electrónico",
-      "confirmPassword": "Confirma tu contraseña",
+      "confirmPassword": "Confirme su contraseña",
       "title": "Crear cuenta",
-      "description": "Crea tu cuenta para continuar.",
+      "description": "Cree su cuenta para continuar.",
       "username": "Usuario",
       "password": "Contraseña",
       "enter": "Crear cuenta",
       "registerSuccess": "¡Cuenta creada con éxito!",
       "name": "Nombre",
-      "namePlaceholder": "Introduce tu nombre",
-      "usernamePlaceholder": "Introduce tu usuario",
-      "passwordPlaceholder": "Introduce tu contraseña",
-      "confirmPlaceholder": "Confirma tu contraseña",
+      "namePlaceholder": "Ingrese su nombre",
+      "usernamePlaceholder": "Ingrese su usuario",
+      "passwordPlaceholder": "Ingrese su contraseña",
+      "confirmPlaceholder": "Confirme su contraseña",
       "or": "o",
-      "haveAccount": "¿Ya tienes cuenta?",
-      "goToLogin": "Ir al inicio de sesión",
-      "confirm": "Confirma tu contraseña",
+      "haveAccount": "¿Ya tiene cuenta?",
+      "goToLogin": "Ir a iniciar sesión",
+      "confirm": "Confirme su contraseña",
       "cta": "Crear cuenta",
       "creating": "Creando cuenta…"
     },
     "login": {
       "title": "Iniciar sesión",
-      "description": "Accede a tu cuenta para continuar.",
+      "description": "Acceda a su cuenta para continuar.",
       "username": "Usuario",
       "password": "Contraseña",
       "enter": "Iniciar sesión",
       "createAccount": "Crear cuenta",
       "or": "o",
-      "noAccount": "¿Aún no tienes cuenta?",
+      "noAccount": "¿Aún no tiene cuenta?",
       "entering": "Iniciando sesión…",
       "loginSuccess": "¡Inicio de sesión exitoso!"
     },
     "errors": {
-      "fillUserPass": "Introduce usuario y contraseña.",
-      "generic": "Error de inicio de sesión: {message}",
+      "fillUserPass": "Complete el usuario y la contraseña.",
+      "generic": "Error al iniciar sesión: {message}",
       "loginSuccess": "¡Inicio de sesión exitoso!",
       "passwordMismatch": "Las contraseñas no coinciden."
     }
@@ -97,11 +98,11 @@
   "history": {
     "delete": {
       "title": "Eliminar compra",
-      "desc": "¿Seguro que deseas eliminar esta compra? Esta acción no se puede deshacer.",
+      "desc": "¿Está seguro de que desea eliminar esta compra? Esta acción no se puede deshacer.",
       "confirm": "Eliminar"
     },
     "title": "Historial de compras",
-    "subtitle": "Consulta tus compras anteriores y los detalles de cada una.",
+    "subtitle": "Vea sus compras anteriores y sus detalles.",
     "search": {
       "label": "Buscar",
       "placeholder": "Filtrar por tienda, fecha o ID…"
@@ -124,7 +125,7 @@
     "empty": "No se encontraron compras.",
     "detail": {
       "title": "Detalles de la compra",
-      "none": "Selecciona una compra.",
+      "none": "Seleccione una compra.",
       "date": { "label": "Fecha" },
       "store": { "label": "Tienda" },
       "total": { "label": "Total" },
