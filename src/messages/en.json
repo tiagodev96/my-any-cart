@@ -1,9 +1,22 @@
 {
+  "app": {
+    "meta": {
+      "title": "My Any Cart",
+      "description": "A cart that can be used to calculate the total price of your items"
+    }
+  },
   "common": {
     "loading": "Loading…",
-    "cancel": "Cancel"
+    "cancel": "Cancel",
+    "changeLanguage": "Change language",
+    "guest": "Guest",
+    "close": "Close",
+    "generic": "Unknown error"
   },
   "products": {
+    "aria": {
+      "cartTotalBar": "Cart total bar"
+    },
     "creating": "Saving...",
     "column": {
       "item": "Item",
@@ -37,7 +50,7 @@
     "total": "Total",
     "saveDialog": {
       "title": "Save purchase",
-      "desc": "Save the purchase to view it later.",
+      "desc": "Save the purchase to view later.",
       "cartName": "Cart name",
       "currency": "Currency",
       "notes": "Notes",
@@ -45,7 +58,7 @@
       "summary": "Purchase summary",
       "products": "Products",
       "currencyLabel": "Currency",
-      "idempotencyKey": "Idempotency ID",
+      "idempotencyKey": "Idempotency Key",
       "idempotencyKeyDescription": "Automatically generated",
       "store": "Store",
       "storeName": "Store name"
@@ -63,7 +76,7 @@
       "username": "Username",
       "password": "Password",
       "enter": "Create account",
-      "registerSuccess": "Account successfully created!",
+      "registerSuccess": "Account created successfully!",
       "name": "Name",
       "namePlaceholder": "Enter your name",
       "usernamePlaceholder": "Enter your username",
@@ -84,15 +97,19 @@
       "enter": "Login",
       "createAccount": "Create account",
       "or": "or",
-      "noAccount": "Don't have an account yet?",
+      "noAccount": "Don’t have an account yet?",
       "entering": "Logging in…",
       "loginSuccess": "Login successful!"
     },
     "errors": {
-      "fillUserPass": "Fill in username and password.",
-      "generic": "Login error: {message}",
+      "fillUserPass": "Please fill username and password.",
+      "generic": "Error logging in: {message}",
       "loginSuccess": "Login successful!",
-      "passwordMismatch": "Passwords do not match."
+      "passwordMismatch": "Passwords do not match.",
+      "googleToken": "Failed to get Google id_token",
+      "googleLogin": "Google login failed",
+      "useAuthError": "useAuth must be used within <AuthProvider>",
+      "useCurrencyError": "useCurrency must be used within <CurrencyProvider>"
     }
   },
   "history": {
@@ -102,7 +119,7 @@
       "confirm": "Delete"
     },
     "title": "Purchase History",
-    "subtitle": "View your previous purchases and their details.",
+    "subtitle": "View your past purchases and their details.",
     "search": {
       "label": "Search",
       "placeholder": "Filter by store, date or ID…"
