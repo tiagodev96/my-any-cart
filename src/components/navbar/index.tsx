@@ -144,6 +144,9 @@ export default function Navbar({ user, loadingUser, onLogout }: NavbarProps) {
                     <Link href={`/${locale}/profile`}>{t("profile")}</Link>
                   </DropdownMenuItem>
                   <DropdownMenuItem asChild>
+                    <Link href={`/${locale}/cart`}>{t("cart")}</Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem asChild>
                     <Link href={`/${locale}/history`}>{t("history")}</Link>
                   </DropdownMenuItem>
                   <DropdownMenuItem
