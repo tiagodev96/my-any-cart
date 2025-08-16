@@ -9,6 +9,11 @@ export const dateTime = (iso: string) =>
     timeStyle: "short",
   }).format(new Date(iso));
 
+export const dateOnly = (iso: string) =>
+  new Intl.DateTimeFormat("pt-PT", {
+    dateStyle: "medium",
+  }).format(new Date(iso));
+
 export function normalizePurchases(resp: unknown) {
   if (Array.isArray(resp)) return resp.filter(isAPIPurchase);
   if (!resp || typeof resp !== "object") return [];

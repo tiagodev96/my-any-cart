@@ -2,8 +2,11 @@
 
 import * as React from "react";
 import { deletePurchase } from "@/lib/api/purchases";
+import { toast } from "sonner";
+import { useTranslations } from "next-intl";
 
 export function useDeletePurchase(onSuccess?: (id: string) => void) {
+  const t = useTranslations("history");
   const [confirmOpen, setConfirmOpen] = React.useState(false);
   const [deleteId, setDeleteId] = React.useState<string | null>(null);
   const [deleting, setDeleting] = React.useState(false);
@@ -27,15 +30,21 @@ export function useDeletePurchase(onSuccess?: (id: string) => void) {
     setError(null);
     try {
       await deletePurchase(deleteId);
+
+      toast.success(t("delete.toastSuccess"));
+
       onSuccess?.(deleteId);
       setConfirmOpen(false);
       setDeleteId(null);
     } catch (e) {
-      setError(e instanceof Error ? e.message : String(e));
+      const message = e instanceof Error ? e.message : String(e);
+      setError(message);
+
+      toast.error(t("delete.toastError"));
     } finally {
       setDeleting(false);
     }
-  }, [deleteId, onSuccess]);
+  }, [deleteId, onSuccess, t]);
 
   return {
     confirmOpen,

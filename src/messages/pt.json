@@ -61,7 +61,10 @@
       "idempotencyKey": "ID de idempotência",
       "idempotencyKeyDescription": "Gerado automaticamente",
       "store": "Loja",
-      "storeName": "Nome da loja"
+      "storeName": "Nome da loja",
+      "tooltip": "Adicione itens ao carrinho para salvar",
+      "toastPurchaseSuccess": "Compra salva com sucesso!",
+      "toastPurchaseError": "Erro ao salvar compra"
     }
   },
   "auth": {
@@ -116,7 +119,9 @@
     "delete": {
       "title": "Excluir compra",
       "desc": "Tem certeza que deseja excluir esta compra? Esta ação não pode ser desfeita.",
-      "confirm": "Excluir"
+      "confirm": "Excluir",
+      "toastSuccess": "Compra excluída com sucesso!",
+      "toastError": "Erro ao excluir compra"
     },
     "title": "Histórico de Compras",
     "subtitle": "Veja suas compras anteriores e detalhes de cada uma.",

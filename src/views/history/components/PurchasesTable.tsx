@@ -12,7 +12,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { APIPurchase } from "../types";
-import { money, dateTime } from "../utils";
+import { money, dateOnly } from "../utils";
 import { Button } from "@/components/ui/button";
 
 type Props = {
@@ -120,7 +120,7 @@ export default function PurchasesTable({
                   )}
                 </div>
               </TableCell>
-              <TableCell>{dateTime(p.completed_at)}</TableCell>
+              <TableCell>{dateOnly(p.completed_at)}</TableCell>
               <TableCell className="text-right">
                 {p.items_count ?? "—"}
               </TableCell>

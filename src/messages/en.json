@@ -61,7 +61,8 @@
       "idempotencyKey": "Idempotency Key",
       "idempotencyKeyDescription": "Automatically generated",
       "store": "Store",
-      "storeName": "Store name"
+      "storeName": "Store name",
+      "tooltip": "Add items to the cart to save"
     }
   },
   "auth": {

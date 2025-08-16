@@ -61,7 +61,8 @@
       "idempotencyKey": "Clave de idempotencia",
       "idempotencyKeyDescription": "Generada automáticamente",
       "store": "Tienda",
-      "storeName": "Nombre de la tienda"
+      "storeName": "Nombre de la tienda",
+      "tooltip": "Agrega artículos al carrito para guardar"
     }
   },
   "auth": {
