@@ -9,10 +9,11 @@ import { getTranslations } from "next-intl/server";
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 
 export async function generateMetadata({
-  params: { locale },
+  params,
 }: {
-  params: { locale: string };
+  params: Promise<{ locale: string }>;
 }): Promise<Metadata> {
+  const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "app.meta" });
 
   return {

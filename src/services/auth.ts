@@ -18,7 +18,7 @@ function normalizeUser(u?: BackendUser): User | undefined {
   return {
     id: u.id,
     email: u.email,
-    name: u.name ?? null ?? undefined,
+    name: u.name ?? undefined,
   };
 }
 
