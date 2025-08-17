@@ -106,6 +106,13 @@
       "entering": "Connexion…",
       "loginSuccess": "Connexion réussie !"
     },
+    "loginRequired": {
+      "title": "Connexion requise",
+      "description": "Pour enregistrer votre panier, vous devez vous connecter d’abord.",
+      "noAccount": "Vous n’avez pas encore de compte ?",
+      "goToRegister": "Aller à la création de compte",
+      "goToCart": "Retourner au panier"
+    },
     "errors": {
       "fillUserPass": "Veuillez remplir le nom d’utilisateur et le mot de passe.",
       "generic": "Erreur lors de la connexion : {message}",

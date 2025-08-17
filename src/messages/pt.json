@@ -108,6 +108,13 @@
       "entering": "Entrando…",
       "loginSuccess": "Login realizado com sucesso!"
     },
+    "loginRequired": {
+      "title": "É necessário fazer login",
+      "description": "Para salvar o seu carrinho, é necessário fazer login primeiro.",
+      "noAccount": "Ainda não tem conta?",
+      "goToRegister": "Ir para registro",
+      "goToCart": "Voltar ao carrinho"
+    },
     "errors": {
       "fillUserPass": "Preencha usuário e senha.",
       "generic": "Erro ao fazer login: {message}",

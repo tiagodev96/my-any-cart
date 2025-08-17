@@ -106,6 +106,13 @@
       "entering": "Logging in…",
       "loginSuccess": "Login successful!"
     },
+    "loginRequired": {
+      "title": "Login required",
+      "description": "To save your cart, you must login first.",
+      "noAccount": "Don’t have an account yet?",
+      "goToRegister": "Go to register",
+      "goToCart": "Go to cart"
+    },
     "errors": {
       "fillUserPass": "Please fill username and password.",
       "generic": "Error logging in: {message}",

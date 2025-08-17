@@ -106,6 +106,13 @@
       "entering": "Ingresando…",
       "loginSuccess": "¡Inicio de sesión exitoso!"
     },
+    "loginRequired": {
+      "title": "Se requiere iniciar sesión",
+      "description": "Para guardar su carrito, debe iniciar sesión primero.",
+      "noAccount": "¿Aún no tiene cuenta?",
+      "goToRegister": "Ir a registro",
+      "goToCart": "Volver al carrito"
+    },
     "errors": {
       "fillUserPass": "Complete usuario y contraseña.",
       "generic": "Error al iniciar sesión: {message}",
