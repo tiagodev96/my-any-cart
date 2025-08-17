@@ -10,6 +10,7 @@ import { GOOGLE_CLIENT_ID } from "@/lib/env";
 import { useAuth } from "@/contexts/AuthContext";
 import { loginWithGoogle } from "@/services/auth";
 import { useTranslations } from "next-intl";
+import { useRouter } from "next/navigation";
 
 function getErrorMessage(
   err: unknown,
@@ -23,10 +24,14 @@ function getErrorMessage(
   }
 }
 
-export function GoogleLoginButton() {
+type Props = {
+  next?: string;
+};
+
+export function GoogleLoginButton({ next }: Props) {
   const t = useTranslations();
   const { loginWithBackendTokens } = useAuth();
-
+  const router = useRouter();
   const handleSuccess = React.useCallback(
     async (cred: CredentialResponse): Promise<void> => {
       try {
@@ -34,11 +39,14 @@ export function GoogleLoginButton() {
         if (!id_token) throw new Error(t("auth.errors.googleToken"));
         const tokens = await loginWithGoogle(id_token);
         await loginWithBackendTokens(tokens);
+        if (next) {
+          router.push(next);
+        }
       } catch (err: unknown) {
         alert(getErrorMessage(err, t));
       }
     },
-    [loginWithBackendTokens, t]
+    [loginWithBackendTokens, t, next, router]
   );
 
   return (

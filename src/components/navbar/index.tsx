@@ -95,10 +95,12 @@ export default function Navbar({ user, loadingUser, onLogout }: NavbarProps) {
             <Link href={`/${locale}`} className="font-semibold tracking-tight">
               MyAnyCart
             </Link>
-            <div className="hidden items-center gap-2 sm:flex">
-              <NavLink href="/">{t("cart")}</NavLink>
-              <NavLink href="/history">{t("history")}</NavLink>
-            </div>
+            {user && (
+              <div className="hidden items-center gap-2 sm:flex">
+                <NavLink href="/">{t("cart")}</NavLink>
+                <NavLink href="/history">{t("history")}</NavLink>
+              </div>
+            )}
           </div>
 
           <div className="flex items-center gap-3">

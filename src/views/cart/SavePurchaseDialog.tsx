@@ -6,7 +6,6 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import type { ProductRow } from "@/components/products/types";
@@ -20,7 +19,9 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { createPurchase } from "@/lib/api/purchases";
-import { toast } from "sonner"; // ⬅️ novo
+import { toast } from "sonner";
+import { useAuth } from "@/contexts/AuthContext";
+import { useRouter, usePathname } from "next/navigation";
 
 type Props = {
   items: ProductRow[];
@@ -44,12 +45,33 @@ export default function SavePurchaseDialog({
   onSaved,
 }: Props) {
   const t = useTranslations("products");
+  const { user } = useAuth();
+  const router = useRouter();
+  const pathname = usePathname();
+
   const [open, setOpen] = React.useState(false);
   const [cartName, setCartName] = React.useState("");
   const [storeName, setStoreName] = React.useState("");
   const [saving, setSaving] = React.useState(false);
 
   const isDisabled = items.length === 0 || saving;
+
+  const locale = React.useMemo(() => {
+    const parts = pathname?.split("/").filter(Boolean) ?? [];
+    return parts[0] || "pt";
+  }, [pathname]);
+
+  const handleOpen = React.useCallback(() => {
+    if (!user) {
+      router.push(
+        `/${locale}/login-required?next=${encodeURIComponent(
+          pathname || "/"
+        )}`
+      );
+      return;
+    }
+    setOpen(true);
+  }, [user, router, pathname, locale]);
 
   async function handleSave() {
     if (items.length === 0 || saving) return;
@@ -81,6 +103,8 @@ export default function SavePurchaseDialog({
       toast.success(t("saveDialog.toastPurchaseSuccess"));
 
       setOpen(false);
+      setCartName("");
+      setStoreName("");
       onSaved?.();
     } catch (err: unknown) {
       console.error(err);
@@ -95,15 +119,14 @@ export default function SavePurchaseDialog({
       <TooltipProvider>
         <Tooltip>
           <TooltipTrigger asChild>
-            <DialogTrigger asChild>
-              <Button
-                variant="default"
-                disabled={isDisabled}
-                aria-disabled={isDisabled}
-              >
-                {saving ? t("creating") : t("actions.save")}
-              </Button>
-            </DialogTrigger>
+            <Button
+              variant="default"
+              disabled={isDisabled}
+              aria-disabled={isDisabled}
+              onClick={handleOpen}
+            >
+              {saving ? t("creating") : t("actions.save")}
+            </Button>
           </TooltipTrigger>
           {items.length === 0 && (
             <TooltipContent>{t("saveDialog.tooltip")}</TooltipContent>
