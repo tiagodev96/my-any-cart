@@ -9,7 +9,7 @@ import { CurrencySelect } from "@/components/currency/CurrencySelect";
 import { useCurrency } from "@/contexts/CurrencyContext";
 import { Button } from "@/components/ui/button";
 import { ProductDialog } from "@/components/products/ProductDialog";
-import { Plus } from "lucide-react";
+import { Plus, ShoppingCart } from "lucide-react";
 
 export default function CartToolbar({
   items,
@@ -28,8 +28,11 @@ export default function CartToolbar({
   return (
     <>
       <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-        <div className="flex items-center gap-3">
-          <h1 className="text-xl font-semibold">{t("cart")}</h1>
+        <div className="flex items-center gap-3 justify-between">
+          <div className="flex items-center gap-3">
+            <ShoppingCart className="h-5 w-5" />
+            <h1 className="text-xl font-semibold">{t("cart")}</h1>
+          </div>
           <CurrencySelect className="pt-1" />
         </div>
         <div className="flex gap-2">

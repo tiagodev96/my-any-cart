@@ -1,10 +1,9 @@
 "use client";
 
 import * as React from "react";
-import { Pencil } from "lucide-react";
+import { Pencil, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import type { ProductRow, CommonStrings } from "./types";
-import { ProductDeleteButton } from "./product-delete-button";
 
 export function ProductActionsCell({
   row,
@@ -23,17 +22,25 @@ export function ProductActionsCell({
         variant="ghost"
         size="icon"
         aria-label={strings.edit}
-        onClick={() => onEdit(row)}
+        onClick={(e) => {
+          e.stopPropagation();
+          onEdit(row);
+        }}
       >
         <Pencil className="h-4 w-4" />
       </Button>
 
-      <ProductDeleteButton
-        row={row}
-        onConfirm={onDelete}
-        strings={strings}
-        mode="icon"
-      />
+      <Button
+        variant="ghost"
+        size="icon"
+        aria-label={strings.delete}
+        onClick={(e) => {
+          e.stopPropagation();
+          onDelete(row);
+        }}
+      >
+        <Trash2 className="h-4 w-4" />
+      </Button>
     </div>
   );
 }

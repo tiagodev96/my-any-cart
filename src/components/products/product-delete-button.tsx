@@ -31,22 +31,48 @@ export function ProductDeleteButton({
   mode = "icon",
 }: Props) {
   const t = useTranslations("products");
+  const [open, setOpen] = React.useState(false);
+
+  const handleTriggerClick: React.MouseEventHandler<HTMLButtonElement> = (
+    e
+  ) => {
+    e.stopPropagation();
+    setOpen(true);
+  };
+
+  const handleCancel = () => setOpen(false);
+
+  const handleConfirm = () => {
+    onConfirm(row);
+    setOpen(false);
+  };
+
   return (
-    <AlertDialog>
+    <AlertDialog open={open} onOpenChange={setOpen}>
       <AlertDialogTrigger asChild>
         {mode === "icon" ? (
-          <Button variant="ghost" size="icon" aria-label={strings.delete}>
+          <Button
+            variant="ghost"
+            size="icon"
+            aria-label={strings.delete}
+            onClick={handleTriggerClick}
+          >
             <Trash2 className="h-4 w-4" />
           </Button>
         ) : (
-          <Button variant="destructive" size="sm" className="gap-1">
+          <Button
+            variant="destructive"
+            size="sm"
+            className="gap-1"
+            onClick={handleTriggerClick}
+          >
             <Trash2 className="h-4 w-4" />
             {strings.delete}
           </Button>
         )}
       </AlertDialogTrigger>
 
-      <AlertDialogContent>
+      <AlertDialogContent onClick={(e) => e.stopPropagation()}>
         <AlertDialogHeader>
           <AlertDialogTitle>{t("actions.removeItem")}</AlertDialogTitle>
           <AlertDialogDescription>
@@ -57,10 +83,12 @@ export function ProductDeleteButton({
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel>{strings.cancel}</AlertDialogCancel>
+          <AlertDialogCancel onClick={handleCancel}>
+            {strings.cancel}
+          </AlertDialogCancel>
           <AlertDialogAction
             className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
-            onClick={() => onConfirm(row)}
+            onClick={handleConfirm}
           >
             {strings.delete}
           </AlertDialogAction>

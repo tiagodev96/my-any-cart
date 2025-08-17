@@ -2,12 +2,6 @@
 
 import * as React from "react";
 import {
-  ColumnDef,
-  flexRender,
-  getCoreRowModel,
-  useReactTable,
-} from "@tanstack/react-table";
-import {
   Table,
   TableBody,
   TableCell,
@@ -15,11 +9,19 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import type { ProductRow } from "./types";
-import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
+import { useTranslations } from "next-intl";
+import { PencilLine, Trash2 } from "lucide-react";
+import type { ProductRow } from "./types";
 import { useCurrency } from "@/contexts/CurrencyContext";
-import { Trash2, PencilLine } from "lucide-react";
+import {
+  ColumnDef,
+  flexRender,
+  getCoreRowModel,
+  useReactTable,
+} from "@tanstack/react-table";
+import { ProductDialog } from "@/components/products/ProductDialog";
+import { ConfirmDialog } from "@/components/confirm-dialog";
 
 type Props = {
   data: ProductRow[];
@@ -35,9 +37,12 @@ export default function ProductsTable({
   onEdit,
   onDelete,
   onClear,
+  itemsCount,
 }: Props) {
   const t = useTranslations("products");
   const { currency, format } = useCurrency();
+
+  const [clearOpen, setClearOpen] = React.useState(false);
 
   const cartTotal = React.useMemo(() => {
     if (!Array.isArray(data)) return 0;
@@ -77,13 +82,16 @@ export default function ProductsTable({
         header: t("column.actions"),
         cell: ({ row }) => (
           <div className="flex justify-end gap-2">
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => onEdit(row.original)}
-            >
-              {t("actions.edit")}
-            </Button>
+            <ProductDialog
+              trigger={
+                <Button variant="outline" size="sm">
+                  {t("actions.edit")}
+                </Button>
+              }
+              editing={row.original}
+              onSubmit={(updated) => onEdit(updated)}
+              onClose={() => {}}
+            />
             <Button
               variant="destructive"
               size="sm"
@@ -105,6 +113,12 @@ export default function ProductsTable({
 
   const isEmpty = !data || data.length === 0;
 
+  // label do botão mobile (mostra contagem)
+  const clearLabel =
+    itemsCount > 0
+      ? t("clearCart", { count: itemsCount })
+      : t("emptyCart");
+
   return (
     <div className="rounded-md border">
       {isEmpty ? (
@@ -113,6 +127,7 @@ export default function ProductsTable({
         </div>
       ) : (
         <>
+          {/* ===== Mobile (cards) ===== */}
           <div className="block md:hidden p-3 pb-24">
             <ul className="space-y-3">
               {data.map((item) => {
@@ -146,14 +161,20 @@ export default function ProductsTable({
                     </div>
 
                     <div className="mt-3 flex w-full justify-end gap-2">
-                      <Button
-                        variant="outline"
-                        size="icon"
-                        aria-label={t("actions.edit")}
-                        onClick={() => onEdit(item)}
-                      >
-                        <PencilLine className="h-4 w-4" />
-                      </Button>
+                      <ProductDialog
+                        trigger={
+                          <Button
+                            variant="outline"
+                            size="icon"
+                            aria-label={t("actions.edit")}
+                          >
+                            <PencilLine className="h-4 w-4" />
+                          </Button>
+                        }
+                        editing={item}
+                        onSubmit={(updated) => onEdit(updated)}
+                        onClose={() => {}}
+                      />
                       <Button
                         variant="destructive"
                         size="icon"
@@ -168,6 +189,7 @@ export default function ProductsTable({
               })}
             </ul>
 
+            {/* Barra fixa inferior (MOBILE) */}
             <div
               className="
                 fixed inset-x-0 bottom-0 z-40 md:hidden
@@ -192,19 +214,36 @@ export default function ProductsTable({
                   <Button
                     variant="destructive"
                     size="sm"
-                    onClick={onClear}
+                    disabled={itemsCount === 0}
+                    onClick={() => setClearOpen(true)} // ← abre o diálogo
                     className="whitespace-nowrap"
                     aria-label={t("clearCart")}
                     title={t("clearCart")}
                   >
                     <Trash2 className="mr-2 h-4 w-4" />
-                    {t("clearCart")}
+                    {clearLabel}
                   </Button>
                 </div>
               </div>
             </div>
+
+            {/* Diálogo de confirmação (MOBILE) */}
+            <ConfirmDialog
+              open={clearOpen}
+              onOpenChange={setClearOpen}
+              title="actions.dialog-title"
+              description="actions.dialog-description"
+              confirmText="actions.confirm"
+              cancelText="actions.cancel"
+              destructive
+              onConfirm={() => {
+                onClear();
+                setClearOpen(false);
+              }}
+            />
           </div>
 
+          {/* ===== Desktop (tabela) ===== */}
           <div className="hidden md:block">
             <Table>
               <TableHeader>
